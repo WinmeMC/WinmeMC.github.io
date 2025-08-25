@@ -1,11 +1,6 @@
 <!DOCTYPE html>
-<html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="utf-8" />
-    <title>吾湖</title>
-    <style type="text/css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>告白 - 吾湖</title>
@@ -16,7 +11,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-
+        
         body {
             background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
             color: #fff;
@@ -27,10 +22,8 @@
             align-items: center;
             padding: 40px 20px;
             text-align: center;
-            background-color: rgb(51, 51, 51);
-            color: white;
         }
-
+        
         .container {
             max-width: 900px;
             width: 100%;
@@ -41,7 +34,7 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
+        
         h1 {
             font-size: 4.5rem;
             margin-bottom: 30px;
@@ -50,12 +43,12 @@
             letter-spacing: 2px;
             transition: all 0.4s ease;
         }
-
+        
         h1:hover {
             transform: scale(1.05);
             text-shadow: 0 0 20px rgba(255, 126, 230, 0.8);
         }
-
+        
         p {
             font-size: 2.2rem;
             line-height: 1.6;
@@ -68,14 +61,14 @@
             border-radius: 15px;
             transition: all 0.4s ease;
         }
-
+        
         p:hover {
             transform: scale(1.03);
             background: linear-gradient(45deg, #f7a9d7, #a9e4f7);
             -webkit-background-clip: text;
             background-clip: text;
         }
-
+        
         .image-container {
             margin-top: 30px;
             border-radius: 15px;
@@ -84,18 +77,18 @@
             transition: all 0.4s ease;
             display: inline-block;
         }
-
+        
         .image-container:hover {
             transform: scale(1.05);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
-
+        
         img {
             max-width: 100%;
             height: auto;
             display: block;
         }
-
+        
         .hearts {
             position: absolute;
             top: 0;
@@ -105,7 +98,7 @@
             pointer-events: none;
             z-index: -1;
         }
-
+        
         .heart {
             position: absolute;
             width: 20px;
@@ -114,88 +107,83 @@
             opacity: 0;
             animation: fall 10s linear infinite;
         }
-
+        
         @keyframes fall {
             0% {
                 transform: translateY(-50px) rotate(0deg);
                 opacity: 0;
             }
-
             10% {
                 opacity: 1;
             }
-
             90% {
                 opacity: 1;
             }
-
             100% {
                 transform: translateY(calc(100vh + 50px)) rotate(360deg);
                 opacity: 0;
             }
         }
-
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 3.2rem;
             }
-
+            
             p {
                 font-size: 1.8rem;
             }
-
+            
             .container {
                 padding: 25px;
             }
         }
-
+        
         @media (max-width: 480px) {
             h1 {
                 font-size: 2.8rem;
             }
-
+            
             p {
                 font-size: 1.5rem;
             }
         }
     </style>
 </head>
-
 <body>
-    <h1>告白</h1>
-    <p>世辞啊如果你觉得高跟鞋磨脚，你可以穿上小熊袜子。我的意思是，如果你女王当累了，你可以当我的小公主。</p>
-    <img src="SC.png" />
     <div class="hearts" id="hearts"></div>
-
+    
     <div class="container">
         <h1>告白</h1>
         <p>世辞啊如果你觉得高跟鞋磨脚，你可以穿上小熊袜子。我的意思是，如果你女王当累了，你可以当我的小公主。</p>
-
+        
         <div class="image-container">
-            <img src="Sc.png">
+            <!-- 使用占位图替代原图 -->
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'><rect width='400' height='300' fill='%234a6491'/><text x='200' y='150' font-family='Arial' font-size='20' fill='white' text-anchor='middle'>SC.png 图片展示</text></svg>" alt="告白图片">
         </div>
     </div>
 
     <script>
+        // 创建飘落的心形
         function createHearts() {
             const heartsContainer = document.getElementById('hearts');
             const heartCount = 30;
-
+            
             for (let i = 0; i < heartCount; i++) {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
-
+                
+                // 随机位置和动画延迟
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.animationDelay = Math.random() * 10 + 's';
                 heart.style.transform = `scale(${0.5 + Math.random() * 1.5})`;
-
+                
                 heartsContainer.appendChild(heart);
             }
         }
-
+        
+        // 页面加载完成后执行
         window.addEventListener('load', createHearts);
     </script>
 </body>
-
-</html>
 </html>
