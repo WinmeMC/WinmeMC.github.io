@@ -7,15 +7,16 @@
     <style>
         body {
             font-family: "Microsoft YaHei", sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
             background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
         }
         .container {
+            max-width: 800px;
+            margin: 0 auto;
             background-color: white;
-            border-radius: 10px;
             padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h1 {
@@ -24,88 +25,55 @@
         }
         .info-section {
             background-color: #e9f7fe;
-            border-left: 5px solid #3498db;
             padding: 15px;
-            margin-bottom: 20px;
             border-radius: 5px;
+            margin-bottom: 20px;
         }
-        .info-section p {
-            margin: 5px 0;
+        .input-section {
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+        input[type="number"] {
+            width: 100px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
         }
         .mode-selection {
             text-align: center;
             margin: 20px 0;
         }
-        .btn {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        .btn:hover {
-            background-color: #e0e0e0;
-        }
-        .btn-primary {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
-        .input-section {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .form-row {
-            display: flex;
-            gap: 10px;
-        }
-        .form-row .form-group {
-            flex: 1;
-        }
-        .results {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e8f5e9;
-            border-radius: 5px;
-            display: none;
-        }
-        .results h3 {
-            margin-top: 0;
-        }
-        .results p {
-            margin: 5px 0;
-        }
-        .hidden {
-            display: none;
-        }
-        .visible {
-            display: block;
-        }
         .project-selection, .gender-selection {
+            display: none;
             text-align: center;
+            margin: 20px 0;
         }
         .modal {
             display: none;
@@ -130,16 +98,51 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
             cursor: pointer;
         }
-        .close:hover {
-            color: black;
-        }
-        .action-buttons {
+        .developer-section {
+            display: none;
             text-align: center;
-            margin-top: 20px;
+        }
+        .tabs {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab-button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .tab-button:hover {
+            background-color: #ddd;
+        }
+        .tab-button.active {
+            background-color: #ccc;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .tab-content.active {
+            display: block;
         }
     </style>
+</style>
 </head>
 <body>
     <div class="container">
@@ -147,138 +150,149 @@
         
         <div class="info-section">
             <p>作者: Winme</p>
-            <p>特别鸣谢: Nova-lee,Kimi,DeepSeek,Fitten</p>
+            <p>特别鸣谢: Nova-lee,Kimi,DeepSeek,Fitten,Hunyuan,LingMa</p>
             <p>版本: Wm_1.22.6(Y2025_M7_D2最终正式版)</p>
-            <p>注意事项:本程序仅适用于计算施行折分政策地区的中考折分分数,所得结果会与实际得分有误差,仅供参考！如果有问题请联系作者:(QQ:1175746324)</p>
+            <p>注意事项:本网站仅适用于计算施行折分政策地区的中考折分分数,所得结果会与实际得分有误差,仅供参考！如果有问题请联系作者:(QQ:1175746324)</p>
             <p>参考文件:《湛江市教育局关于进一步推进高中阶段学校考试招生制度改革的实施意见》(2022年2月14日湛江市人民政府官网公开)</p>
         </div>
-
+        
         <div class="mode-selection">
-            <button class="btn btn-primary" onclick="selectMode('sports')">体育项目折分</button>
-            <button class="btn btn-primary" onclick="selectMode('comprehensive')">综合科目折分</button>
-            <button class="btn" onclick="openLink('http://x.onlyets.com/Login.aspx')">查分</button>
-            <button class="btn" onclick="openLink('https://www.zhanjiang.gov.cn/zjsfw/gab/jryw/content/post_1573948.html')">查看参考文件</button>
+            <h2>折分模式选择</h2>
+            <button onclick="selectMode('sports')">体育项目折分</button>
+            <button onclick="selectMode('comprehensive')">综合科目折分</button>
+            <button onclick="extraCommand('查分')">查分</button>
+            <button onclick="extraCommand('查看参考文件')">查看参考文件</button>
+            <button onclick="showDeveloperAuth()">启用开发者模式</button>
         </div>
-
+        
         <!-- 体育项目折分部分 -->
-        <div id="sports-section" class="input-section">
+        <div id="sports-section" class="input-section" style="display:none;">
             <h2>体育项目折分</h2>
             
-            <div class="gender-selection">
-                <h3>选择性别</h3>
-                <button class="btn" onclick="selectGender('male')">♂ 男</button>
-                <button class="btn" onclick="selectGender('female')">♀ 女</button>
+            <div class="gender-selection" id="gender-selection">
+                <h3>请选择性别</h3>
+                <button onclick="selectGender('male')">♂ 男</button>
+                <button onclick="selectGender('female')">♀ 女</button>
             </div>
-
-            <div id="project-selection" class="project-selection hidden">
-                <h3>选择项目</h3>
-                <button class="btn" onclick="selectProject('solidBall')">实心球</button>
-                <button class="btn" onclick="selectProject('longJump')">跳远</button>
-                <button class="btn" onclick="selectProject('jumpRope')">跳绳</button>
+            
+            <div class="project-selection" id="project-selection">
+                <h3>请选择项目</h3>
+                <button onclick="selectProject('实心球')">实心球</button>
+                <button onclick="selectProject('跳远')">跳远</button>
+                <button onclick="selectProject('跳绳')">跳绳</button>
             </div>
-
-            <div id="score-input" class="hidden">
-                <div class="form-group">
-                    <label id="endurance-label">耐力跑项目成绩 (单位: "分.秒"或"秒"): </label>
-                    <input type="text" id="endurance-score" placeholder="例如: 3.20 或 200">
-                </div>
-                <div class="form-group">
-                    <label id="project-label">项目成绩: </label>
-                    <input type="text" id="project-score" placeholder="根据项目输入相应成绩">
-                </div>
-                <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="calculateSportsScore()">计算</button>
-                    <button class="btn" onclick="resetSports()">重置</button>
-                </div>
+            
+            <div id="score-inputs">
+                <!-- 动态生成输入框 -->
             </div>
-
-            <div id="sports-results" class="results"></div>
+            
+            <div>
+                <button onclick="calculateSportsScore()">计算分数</button>
+                <button onclick="resetSports()">重新选择</button>
+            </div>
         </div>
-
+        
         <!-- 综合科目折分部分 -->
-        <div id="comprehensive-section" class="input-section">
+        <div id="comprehensive-section" class="input-section" style="display:none;">
             <h2>综合科目折分</h2>
-            <p>请输入各科目成绩</p>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>语文 (满分120):</label>
-                    <input type="number" id="chinese" min="0" max="120" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>数学 (满分120):</label>
-                    <input type="number" id="mathematics" min="0" max="120" step="0.1">
-                </div>
+            <div class="input-group">
+                <label for="chinese">语文:</label>
+                <input type="number" id="chinese" min="0" max="120" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="mathematics">数学:</label>
+                <input type="number" id="mathematics" min="0" max="120" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="english">英语:</label>
+                <input type="number" id="english" min="0" max="120" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="biology">生物:</label>
+                <input type="number" id="biology" min="0" max="100" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="BE">生物实验:</label>
+                <input type="number" id="BE" min="0" max="10" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="geography">地理:</label>
+                <input type="number" id="geography" min="0" max="100" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="physics">物理:</label>
+                <input type="number" id="physics" min="0" max="100" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="PE">物理实验:</label>
+                <input type="number" id="PE" min="0" max="10" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="history">历史:</label>
+                <input type="number" id="history" min="0" max="100" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="chemistry">化学:</label>
+                <input type="number" id="chemistry" min="0" max="100" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="CE">化学实验:</label>
+                <input type="number" id="CE" min="0" max="10" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="politics">政治:</label>
+                <input type="number" id="politics" min="0" max="100" step="0.1">
+            </div>
+            <div class="input-group">
+                <label for="sport">体育:</label>
+                <input type="number" id="sport" min="0" max="80" step="0.1">
+            </div>
+            <div>
+                <button onclick="calculateComprehensiveScore()">计算分数</button>
+                <button onclick="resetComprehensive()">重置</button>
+            </div>
+        </div>
+        
+        <!-- 结果显示部分 -->
+        <div id="result-section" class="result-section">
+            <h2>计算结果</h2>
+            <div id="result-content"></div>
+            <button onclick="hideResult()">返回</button>
+        </div>
+        
+        <!-- 开发者认证 -->
+        <div id="developer-auth" class="developer-section">
+            <h2>开发者身份验证</h2>
+            <div class="input-group">
+                <label for="dev-username">账号:</label>
+                <input type="text" id="dev-username">
+            </div>
+            <div class="input-group">
+                <label for="dev-password">密码:</label>
+                <input type="password" id="dev-password">
+            </div>
+            <button onclick="authenticateDeveloper()">验证</button>
+        </div>
+        
+        <!-- 开发者模式 -->
+        <div id="developer-mode" class="developer-section">
+            <h2>开发者模式已启用!</h2>
+            <div class="tabs">
+                <button class="tab-button" onclick="openTab(event, 'tab2')">关于</button>
+                <button class="tab-button" onclick="exitDeveloperMode()">退出开发者模式</button>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label>英语 (满分120):</label>
-                    <input type="number" id="english" min="0" max="120" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>生物 (满分100):</label>
-                    <input type="number" id="biology" min="0" max="100" step="0.1">
-                </div>
+            <div id="tab2" class="tab-content">
+                <p>版本信息如下</p>
+                <p>程序名称:中考折分计算系统(简称:考计)</p>
+                <p>版本:Wm_1.22.6(Y2025_M7_D2最终正式版)</p>
+                <p>逻辑内核:Python-考计3&1-Fuse+Upgrade转html</p>
+                <p>开发语言:Python3.12.6转html</p>
+                <p>开发环境:Windows10+IDE_VScode</p>
+                <p>开发者:Winme吾梦(姚ZS)</p>
+                <p>参与:Nova-lee,Kimi,DeepSeek,Fitten,Hunyuan,LingMa</p>
+	
             </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>生物实验 (满分10):</label>
-                    <input type="number" id="biology-experiment" min="0" max="10" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>地理 (满分100):</label>
-                    <input type="number" id="geography" min="0" max="100" step="0.1">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>物理 (满分100):</label>
-                    <input type="number" id="physics" min="0" max="100" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>物理实验 (满分10):</label>
-                    <input type="number" id="physics-experiment" min="0" max="10" step="0.1">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>历史 (满分100):</label>
-                    <input type="number" id="history" min="0" max="100" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>化学 (满分100):</label>
-                    <input type="number" id="chemistry" min="0" max="100" step="0.1">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>化学实验 (满分10):</label>
-                    <input type="number" id="chemistry-experiment" min="0" max="10" step="0.1">
-                </div>
-                <div class="form-group">
-                    <label>政治 (满分100):</label>
-                    <input type="number" id="politics" min="0" max="100" step="0.1">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>体育 (满分80):</label>
-                    <input type="number" id="sport" min="0" max="80" step="0.1">
-                </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="btn btn-primary" onclick="calculateComprehensiveScore()">计算</button>
-                <button class="btn" onclick="resetComprehensive()">重置</button>
-            </div>
-            
-            <div id="comprehensive-results" class="results"></div>
         </div>
     </div>
 
@@ -286,64 +300,74 @@
         // 全局变量
         let selectedGender = '';
         let selectedProject = '';
+        let currentMode = '';
         
-        // 模式选择
+        // 显示模式选择
         function selectMode(mode) {
-            // 隐藏所有部分
+            currentMode = mode;
             document.getElementById('sports-section').style.display = 'none';
             document.getElementById('comprehensive-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'none';
+            document.getElementById('developer-auth').style.display = 'none';
+            document.getElementById('developer-mode').style.display = 'none';
             
-            // 显示选择的部分
             if (mode === 'sports') {
                 document.getElementById('sports-section').style.display = 'block';
-                // 重置体育项目选择
-                document.getElementById('project-selection').classList.add('hidden');
-                document.getElementById('score-input').classList.add('hidden');
-                document.getElementById('sports-results').style.display = 'none';
+                document.getElementById('gender-selection').style.display = 'block';
+                document.getElementById('project-selection').style.display = 'none';
+                document.getElementById('score-inputs').innerHTML = '';
             } else if (mode === 'comprehensive') {
                 document.getElementById('comprehensive-section').style.display = 'block';
-                document.getElementById('comprehensive-results').style.display = 'none';
             }
         }
         
-        // 性别选择
+        // 选择性别
         function selectGender(gender) {
             selectedGender = gender;
-            document.getElementById('project-selection').classList.remove('hidden');
+            document.getElementById('gender-selection').style.display = 'none';
+            document.getElementById('project-selection').style.display = 'block';
         }
         
-        // 项目选择
+        // 选择项目
         function selectProject(project) {
             selectedProject = project;
-            document.getElementById('project-selection').classList.add('hidden');
-            document.getElementById('score-input').classList.remove('hidden');
+            document.getElementById('project-selection').style.display = 'none';
             
-            // 根据性别和项目设置标签
-            const projectLabel = document.getElementById('project-label');
-            if (project === 'solidBall') {
-                projectLabel.textContent = '实心球成绩 (单位: 米):';
-            } else if (project === 'longJump') {
-                projectLabel.textContent = '跳远成绩 (单位: 米):';
-            } else if (project === 'jumpRope') {
-                projectLabel.textContent = '跳绳成绩 (单位: 个):';
-            }
-            
-            // 根据性别设置耐力跑标签
-            const enduranceLabel = document.getElementById('endurance-label');
-            if (selectedGender === 'male') {
-                enduranceLabel.textContent = '1000米成绩 (单位: "分.秒"或"秒"):';
-            } else {
-                enduranceLabel.textContent = '800米成绩 (单位: "分.秒"):';
-            }
+            // 根据性别和项目生成输入框
+            generateScoreInputs();
         }
         
-        // 计算体育项目折分
-        function calculateSportsScore() {
-            const enduranceScore = document.getElementById('endurance-score').value;
-            const projectScore = document.getElementById('project-score').value;
+        // 生成体育成绩输入框
+        function generateScoreInputs() {
+            const container = document.getElementById('score-inputs');
+            let html = '';
             
-            if (!enduranceScore || !projectScore) {
-                alert('请填写所有成绩');
+            // 耐力跑项目
+            if (selectedGender === 'male') {
+                html += '<div class="input-group"><label for="endurance">1000米成绩(秒):</label><input type="number" id="endurance" min="0" step="0.1"></div>';
+            } else {
+                html += '<div class="input-group"><label for="endurance">800米成绩(秒):</label><input type="number" id="endurance" min="0" step="0.1"></div>';
+            }
+            
+            // 其他项目
+            if (selectedProject === '实心球') {
+                html += '<div class="input-group"><label for="project-score">实心球成绩(米):</label><input type="number" id="project-score" min="0" step="0.1"></div>';
+            } else if (selectedProject === '跳远') {
+                html += '<div class="input-group"><label for="project-score">跳远成绩(米):</label><input type="number" id="project-score" min="0" step="0.1"></div>';
+            } else if (selectedProject === '跳绳') {
+                html += '<div class="input-group"><label for="project-score">跳绳成绩(个):</label><input type="number" id="project-score" min="0" step="1"></div>';
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // 计算体育分数
+        function calculateSportsScore() {
+            const endurance = parseFloat(document.getElementById('endurance').value);
+            const projectScore = parseFloat(document.getElementById('project-score').value);
+            
+            if (isNaN(endurance) || isNaN(projectScore)) {
+                alert('请输入有效的成绩');
                 return;
             }
             
@@ -353,102 +377,85 @@
             // 计算耐力跑得分
             if (selectedGender === 'male') {
                 // 1000米
-                let enduranceTime = 0;
-                if (enduranceScore.includes('.')) {
-                    const parts = enduranceScore.split('.');
-                    enduranceTime = parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
-                } else {
-                    enduranceTime = parseFloat(enduranceScore);
-                }
-                
-                if (enduranceTime <= 208) {
+                if (endurance <= 208) {
                     score1 = 100;
-                } else if (enduranceTime <= 215) {
-                    score1 = ((215 - enduranceTime) / 1.4) + 95;
-                } else if (enduranceTime < 310) {
-                    score1 = 310 - enduranceTime;
+                } else if (endurance <= 215) {
+                    score1 = ((215 - endurance) / 1.4) + 95;
+                } else if (endurance < 310) {
+                    score1 = 310 - endurance;
                 } else {
                     score1 = 0;
                 }
             } else {
                 // 800米
-                let enduranceTime = 0;
-                if (enduranceScore.includes('.')) {
-                    const parts = enduranceScore.split('.');
-                    enduranceTime = parseFloat(parts[0]) * 60 + parseFloat(parts[1]);
-                } else {
-                    enduranceTime = parseFloat(enduranceScore);
-                }
-                
-                if (enduranceTime <= 193) {
+                if (endurance <= 193) {
                     score1 = 100;
-                } else if (enduranceTime <= 200) {
-                    score1 = ((200 - enduranceTime) / 1.4) + 95;
-                } else if (enduranceTime < 300) {
-                    score1 = 300 - enduranceTime;
+                } else if (endurance <= 200) {
+                    score1 = ((200 - endurance) / 1.4) + 95;
+                } else if (endurance < 300) {
+                    score1 = 300 - endurance;
                 } else {
                     score1 = 0;
                 }
             }
             
             // 计算项目得分
-            const projectValue = parseFloat(projectScore);
-            if (selectedProject === 'solidBall') {
+            if (selectedProject === '实心球') {
                 if (selectedGender === 'male') {
                     // 男实心球
-                    if (projectValue >= 11.0) {
+                    if (projectScore >= 11.0) {
                         score2 = 100;
-                    } else if (projectValue > 9.4) {
-                        score2 = ((projectValue - 9.4) / 0.16) + 90;
-                    } else if (projectValue > 5.8) {
-                        score2 = (projectValue - 5.8) / 0.04;
+                    } else if (projectScore > 9.4) {
+                        score2 = ((projectScore - 9.4) / 0.16) + 90;
+                    } else if (projectScore > 5.8) {
+                        score2 = (projectScore - 5.8) / 0.04;
                     } else {
                         score2 = 0;
                     }
                 } else {
                     // 女实心球
-                    if (projectValue >= 8.00) {
+                    if (projectScore >= 8.00) {
                         score2 = 100;
-                    } else if (projectValue > 6.40) {
-                        score2 = ((projectValue - 6.40) / 0.16) + 90;
-                    } else if (projectValue > 3.70) {
-                        score2 = (projectValue - 3.70) / 0.03;
+                    } else if (projectScore > 6.40) {
+                        score2 = ((projectScore - 6.40) / 0.16) + 90;
+                    } else if (projectScore > 3.70) {
+                        score2 = (projectScore - 3.70) / 0.03;
                     } else {
                         score2 = 0;
                     }
                 }
-            } else if (selectedProject === 'longJump') {
+            } else if (selectedProject === '跳远') {
                 if (selectedGender === 'male') {
                     // 男跳远
-                    if (projectValue >= 2.55) {
+                    if (projectScore >= 2.55) {
                         score2 = 100;
-                    } else if (projectValue > 2.35) {
-                        score2 = ((projectValue - 2.35) / 0.02) + 90;
-                    } else if (projectValue > 1.81) {
-                        score2 = (projectValue - 1.81) / 0.006;
+                    } else if (projectScore > 2.35) {
+                        score2 = ((projectScore - 2.35) / 0.02) + 90;
+                    } else if (projectScore > 1.81) {
+                        score2 = (projectScore - 1.81) / 0.006;
                     } else {
                         score2 = 0;
                     }
                 } else {
                     // 女跳远
-                    if (projectValue >= 2.07) {
+                    if (projectScore >= 2.07) {
                         score2 = 100;
-                    } else if (projectValue > 1.87) {
-                        score2 = ((projectValue - 1.87) / 0.02) + 90;
-                    } else if (projectValue > 1.33) {
-                        score2 = (projectValue - 1.33) / 0.006;
+                    } else if (projectScore > 1.87) {
+                        score2 = ((projectScore - 1.87) / 0.02) + 90;
+                    } else if (projectScore > 1.33) {
+                        score2 = (projectScore - 1.33) / 0.006;
                     } else {
                         score2 = 0;
                     }
                 }
-            } else if (selectedProject === 'jumpRope') {
+            } else if (selectedProject === '跳绳') {
                 // 跳绳
-                if (projectValue >= 194) {
+                if (projectScore >= 194) {
                     score2 = 100;
-                } else if (projectValue > 164) {
-                    score2 = ((projectValue - 164) / 3) + 90;
-                } else if (projectValue > 20) {
-                    score2 = (projectValue - 20) / 1.6;
+                } else if (projectScore > 164) {
+                    score2 = ((projectScore - 164) / 3) + 90;
+                } else if (projectScore > 20) {
+                    score2 = (projectScore - 20) / 1.6;
                 } else {
                     score2 = 0;
                 }
@@ -458,203 +465,224 @@
             const overall = (score1 + score2) * 0.4;
             
             // 显示结果
-            const resultsDiv = document.getElementById('sports-results');
-            resultsDiv.innerHTML = `
-                <h3>体育项目折分结果</h3>
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = `
                 <p>你的耐力跑项目得分为: ${score1.toFixed(2)}</p>
                 <p>你的耐力跑项目得分(折算)为: ${(score1 * 0.4).toFixed(2)}</p>
-                <p>你的${getProjectName(selectedProject)}项目得分为: ${score2.toFixed(2)}</p>
-                <p>你的${getProjectName(selectedProject)}项目得分(折算)为: ${(score2 * 0.4).toFixed(2)}</p>
+                <p>你的${selectedProject}项目得分为: ${score2.toFixed(2)}</p>
+                <p>你的${selectedProject}项目得分(折算)为: ${(score2 * 0.4).toFixed(2)}</p>
                 <p>你的项目总得分为: ${(score1 + score2).toFixed(2)}</p>
                 <p>你的项目总得分(折算)为: ${overall.toFixed(2)}</p>
             `;
-            resultsDiv.style.display = 'block';
+            
+            document.getElementById('result-section').style.display = 'block';
         }
         
-        // 获取项目名称
-        function getProjectName(project) {
-            switch(project) {
-                case 'solidBall': return '实心球';
-                case 'longJump': return '跳远';
-                case 'jumpRope': return '跳绳';
-                default: return '';
-            }
-        }
-        
-        // 重置体育项目
+        // 重置体育选择
         function resetSports() {
-            document.getElementById('endurance-score').value = '';
-            document.getElementById('project-score').value = '';
-            document.getElementById('sports-results').style.display = 'none';
-            selectMode('sports');
+            selectedGender = '';
+            selectedProject = '';
+            document.getElementById('sports-section').style.display = 'none';
+            document.getElementById('gender-selection').style.display = 'block';
+            document.getElementById('project-selection').style.display = 'none';
+            document.getElementById('score-inputs').innerHTML = '';
         }
         
-        // 计算综合科目折分
+        // 计算综合科目分数
         function calculateComprehensiveScore() {
-            // 获取所有输入值
-            const chinese = parseFloat(document.getElementById('chinese').value) || 0;
-            const mathematics = parseFloat(document.getElementById('mathematics').value) || 0;
-            const english = parseFloat(document.getElementById('english').value) || 0;
-            const biology = parseFloat(document.getElementById('biology').value) || 0;
-            const biologyExperiment = parseFloat(document.getElementById('biology-experiment').value) || 0;
-            const geography = parseFloat(document.getElementById('geography').value) || 0;
-            const physics = parseFloat(document.getElementById('physics').value) || 0;
-            const physicsExperiment = parseFloat(document.getElementById('physics-experiment').value) || 0;
-            const history = parseFloat(document.getElementById('history').value) || 0;
-            const chemistry = parseFloat(document.getElementById('chemistry').value) || 0;
-            const chemistryExperiment = parseFloat(document.getElementById('chemistry-experiment').value) || 0;
-            const politics = parseFloat(document.getElementById('politics').value) || 0;
-            const sport = parseFloat(document.getElementById('sport').value) || 0;
+            // 获取输入值
+            const chinese = parseFloat(document.getElementById('chinese').value);
+            const mathematics = parseFloat(document.getElementById('mathematics').value);
+            const english = parseFloat(document.getElementById('english').value);
+            const biology = parseFloat(document.getElementById('biology').value);
+            const BE = parseFloat(document.getElementById('BE').value);
+            const geography = parseFloat(document.getElementById('geography').value);
+            const physics = parseFloat(document.getElementById('physics').value);
+            const PE = parseFloat(document.getElementById('PE').value);
+            const history = parseFloat(document.getElementById('history').value);
+            const chemistry = parseFloat(document.getElementById('chemistry').value);
+            const CE = parseFloat(document.getElementById('CE').value);
+            const politics = parseFloat(document.getElementById('politics').value);
+            const sport = parseFloat(document.getElementById('sport').value);
+            
+            // 验证输入
+            if (isNaN(chinese) || chinese < 0 || chinese > 120) {
+                alert('请输入有效的语文成绩(0-120)');
+                return;
+            }
+            if (isNaN(mathematics) || mathematics < 0 || mathematics > 120) {
+                alert('请输入有效的数学成绩(0-120)');
+                return;
+            }
+            if (isNaN(english) || english < 0 || english > 120) {
+                alert('请输入有效的英语成绩(0-120)');
+                return;
+            }
+            if (isNaN(biology) || biology < 0 || biology > 100) {
+                alert('请输入有效的生物成绩(0-100)');
+                return;
+            }
+            if (isNaN(BE) || BE < 0 || BE > 10) {
+                alert('请输入有效的生物实验成绩(0-10)');
+                return;
+            }
+            if (isNaN(geography) || geography < 0 || geography > 100) {
+                alert('请输入有效的地理成绩(0-100)');
+                return;
+            }
+            if (isNaN(physics) || physics < 0 || physics > 100) {
+                alert('请输入有效的物理成绩(0-100)');
+                return;
+            }
+            if (isNaN(PE) || PE < 0 || PE > 10) {
+                alert('请输入有效的物理实验成绩(0-10)');
+                return;
+            }
+            if (isNaN(history) || history < 0 || history > 100) {
+                alert('请输入有效的历史成绩(0-100)');
+                return;
+            }
+            if (isNaN(chemistry) || chemistry < 0 || chemistry > 100) {
+                alert('请输入有效的化学成绩(0-100)');
+                return;
+            }
+            if (isNaN(CE) || CE < 0 || CE > 10) {
+                alert('请输入有效的化学实验成绩(0-10)');
+                return;
+            }
+            if (isNaN(politics) || politics < 0 || politics > 100) {
+                alert('请输入有效的政治成绩(0-100)');
+                return;
+            }
+            if (isNaN(sport) || sport < 0 || sport > 80) {
+                alert('请输入有效的体育成绩(0-80)');
+                return;
+            }
             
             // 英语计算
-            const englishScore = english * (5/6);
+            const g = english * (5 / 6);
             
             // 生地计算
-            let biologyTotal = biologyExperiment + biology * 0.9;
+            let BEb = BE + biology * 0.9;
             let geographyScore = geography;
-            let biologyScore = biologyTotal;
             
             if (geography >= biology) {
                 if (biology > 80) {
-                    biologyScore = 40;
+                    BEb = 40;
+                    geographyScore = geographyScore * 0.5;
                 } else if (biology > 14) {
-                    biologyScore = biologyTotal * 0.5;
+                    BEb = BEb * 0.5;
+                    geographyScore = geographyScore * 0.5;
                 } else {
-                    biologyScore = 0;
-                }
-                
-                if (geography >= 80) {
-                    geographyScore = 40;
-                } else if (geography > 14) {
-                    geographyScore = geography * 0.5;
-                } else {
-                    geographyScore = 0;
+                    BEb = 0;
+                    geographyScore = geographyScore * 0.5;
                 }
             } else {
                 if (geography >= 80) {
                     geographyScore = 40;
+                    BEb = BEb * 0.5;
                 } else if (geography > 14) {
-                    geographyScore = geography * 0.5;
+                    geographyScore = geographyScore * 0.5;
+                    BEb = BEb * 0.5;
                 } else {
                     geographyScore = 0;
-                }
-                
-                if (biology > 80) {
-                    biologyScore = 40;
-                } else if (biology > 14) {
-                    biologyScore = biologyTotal * 0.5;
-                } else {
-                    biologyScore = 0;
+                    BEb = BEb * 0.5;
                 }
             }
             
-            const bioGeographyScore = biologyScore + geographyScore;
+            const b = BEb + geographyScore;
             
             // 物史计算
-            let physicsTotal = physicsExperiment + physics * 0.9;
-            let physicsScore = physicsTotal;
+            let PEp = PE + physics * 0.9;
             let historyScore = history;
             
             if (physics >= history) {
                 if (history >= 80) {
                     historyScore = 50;
+                    PEp = PEp * 0.8;
                 } else if (history > 14) {
-                    historyScore = history * 0.625;
+                    historyScore = historyScore * 0.625;
+                    PEp = PEp * 0.8;
                 } else {
                     historyScore = 0;
-                }
-                
-                if (physics > 14) {
-                    physicsScore = physicsTotal * 0.8;
-                } else {
-                    physicsScore = 0;
+                    PEp = PEp * 0.8;
                 }
             } else {
                 if (physics >= 80) {
-                    physicsScore = 50;
+                    PEp = 50;
+                    historyScore = historyScore * 0.8;
                 } else if (physics > 14) {
-                    physicsScore = physicsTotal * 0.625;
+                    PEp = PEp * 0.625;
+                    historyScore = historyScore * 0.8;
                 } else {
-                    physicsScore = 0;
-                }
-                
-                if (history > 14) {
-                    historyScore = history * 0.8;
-                } else {
-                    historyScore = 0;
+                    PEp = 0;
+                    historyScore = historyScore * 0.8;
                 }
             }
             
-            const physicsHistoryScore = physicsScore + historyScore;
+            const c = historyScore + PEp;
             
             // 化道计算
-            let chemistryTotal = chemistryExperiment + chemistry * 0.9;
-            let chemistryScore = chemistryTotal;
+            let CEc = CE + chemistry * 0.9;
             let politicsScore = politics;
             
             if (chemistry >= politics) {
                 if (politics >= 80) {
                     politicsScore = 50;
+                    CEc = CEc * 0.7;
                 } else if (politics > 14) {
-                    politicsScore = politics * 0.625;
+                    politicsScore = politicsScore * 0.625;
+                    CEc = CEc * 0.7;
                 } else {
                     politicsScore = 0;
-                }
-                
-                if (chemistry > 14) {
-                    chemistryScore = chemistryTotal * 0.7;
-                } else {
-                    chemistryScore = 0;
+                    CEc = CEc * 0.7;
                 }
             } else {
                 if (chemistry >= 80) {
-                    chemistryScore = 50;
+                    CEc = 50;
+                    politicsScore = politicsScore * 0.7;
                 } else if (chemistry > 14) {
-                    chemistryScore = chemistryTotal * 0.625;
+                    CEc = CEc * 0.625;
+                    politicsScore = politicsScore * 0.7;
                 } else {
-                    chemistryScore = 0;
-                }
-                
-                if (politics > 14) {
-                    politicsScore = politics * 0.7;
-                } else {
-                    politicsScore = 0;
+                    CEc = 0;
+                    politicsScore = politicsScore * 0.7;
                 }
             }
             
-            const chemistryPoliticsScore = chemistryScore + politicsScore;
+            const d = CEc + politicsScore;
             
             // 总分计算
-            const mainSubjectsScore = chinese + mathematics + sport + englishScore;
-            const totalScore = mainSubjectsScore + bioGeographyScore + physicsHistoryScore + chemistryPoliticsScore;
+            const a = chinese + mathematics + sport + g;
+            const f = a + b + c + d;
             
             // 显示结果
-            const resultsDiv = document.getElementById('comprehensive-results');
-            resultsDiv.innerHTML = `
-                <h3>综合科目折分结果</h3>
+            const resultContent = document.getElementById('result-content');
+            resultContent.innerHTML = `
                 <p>====================</p>
                 <p>英语科满分100分</p>
                 <p>你的英语科目得分为: ${(english * 100 / 120).toFixed(2)}</p>
-                <p>--------------------<p>
+                <p>--------------------</p>
                 <p>生地科目组满分90</p>
-                <p>你的生物科目赋分为: ${biologyScore.toFixed(2)}</p>
+                <p>你的生物科目赋分为: ${BEb.toFixed(2)}</p>
                 <p>你的地理科目赋分为: ${geographyScore.toFixed(2)}</p>
-                <p>你的生地科目组得分为: ${bioGeographyScore.toFixed(2)}</p>
-                <p>--------------------<p>
+                <p>你的生地科目组得分为: ${b.toFixed(2)}</p>
+                <p>--------------------</p>
                 <p>物史科目组满分130</p>
-                <p>你的物理科目赋分为: ${physicsScore.toFixed(2)}</p>
+                <p>你的物理科目赋分为: ${PEp.toFixed(2)}</p>
                 <p>你的历史科目赋分为: ${historyScore.toFixed(2)}</p>
-                <p>你的物史科目组得分为: ${physicsHistoryScore.toFixed(2)}</p>
-                <p>--------------------<p>
+                <p>你的物史科目组得分为: ${c.toFixed(2)}</p>
+                <p>--------------------</p>
                 <p>化道科目组满分120</p>
-                <p>你的化学科目赋分为: ${chemistryScore.toFixed(2)}</p>
+                <p>你的化学科目赋分为: ${CEc.toFixed(2)}</p>
                 <p>你的政治科目赋分为: ${politicsScore.toFixed(2)}</p>
-                <p>你的化道科目组得分为: ${chemistryPoliticsScore.toFixed(2)}</p>
-                <p>--------------------<p>
+                <p>你的化道科目组得分为: ${d.toFixed(2)}</p>
+                <p>--------------------</p>
                 <p>全科满分760</p>
-                <p>你的全科总得分为: ${totalScore.toFixed(2)}</p>
+                <p>你的全科总得分为: ${f.toFixed(2)}</p>
             `;
-            resultsDiv.style.display = 'block';
+            
+            document.getElementById('result-section').style.display = 'block';
         }
         
         // 重置综合科目
@@ -663,23 +691,77 @@
             document.getElementById('mathematics').value = '';
             document.getElementById('english').value = '';
             document.getElementById('biology').value = '';
-            document.getElementById('biology-experiment').value = '';
+            document.getElementById('BE').value = '';
             document.getElementById('geography').value = '';
             document.getElementById('physics').value = '';
-            document.getElementById('physics-experiment').value = '';
+            document.getElementById('PE').value = '';
             document.getElementById('history').value = '';
             document.getElementById('chemistry').value = '';
-            document.getElementById('chemistry-experiment').value = '';
+            document.getElementById('CE').value = '';
             document.getElementById('politics').value = '';
             document.getElementById('sport').value = '';
-            document.getElementById('comprehensive-results').style.display = 'none';
         }
         
-        // 打开链接
-        function openLink(url) {
-            window.open(url, '_blank');
+        // 隐藏结果
+        function hideResult() {
+            document.getElementById('result-section').style.display = 'none';
+        }
+        
+        // 额外命令处理
+        function extraCommand(command) {
+            if (command === '查分') {
+                window.open('http://x.onlyets.com/Login.aspx', '_blank');
+            } else if (command === '查看参考文件') {
+                window.open('https://www.zhanjiang.gov.cn/zjsfw/gab/jryw/content/post_1573948.html', '_blank');
+            }
+        }
+        
+        // 显示开发者认证
+        function showDeveloperAuth() {
+            document.getElementById('sports-section').style.display = 'none';
+            document.getElementById('comprehensive-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'none';
+            document.getElementById('developer-auth').style.display = 'block';
+            document.getElementById('developer-mode').style.display = 'none';
+        }
+        
+        // 开发者认证
+        function authenticateDeveloper() {
+            const username = document.getElementById('dev-username').value;
+            const password = document.getElementById('dev-password').value;
+            
+            if (username === '吾梦' && password === 'WM114514') {
+                document.getElementById('developer-auth').style.display = 'none';
+                document.getElementById('developer-mode').style.display = 'block';
+            } else {
+                alert('账号或密码错误，请重新输入！');
+            }
+        }
+        
+        // 退出开发者模式
+        function exitDeveloperMode() {
+            document.getElementById('developer-mode').style.display = 'none';
+            document.getElementById('developer-auth').style.display = 'none';
+            // 重置模式选择界面
+            document.getElementById('sports-section').style.display = 'none';
+            document.getElementById('comprehensive-section').style.display = 'none';
+            document.getElementById('result-section').style.display = 'none';
+        }
+        
+        // 标签页切换
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
         }
     </script>
 </body>
 </html>
-
