@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,41 +12,49 @@
             margin: 0;
             padding: 20px;
         }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
         }
+
         .info-section {
             background-color: #e9f7fe;
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
         }
+
         .input-section {
             margin-bottom: 20px;
         }
+
         .input-group {
             margin-bottom: 10px;
         }
+
         label {
             display: inline-block;
             width: 120px;
             font-weight: bold;
         }
+
         input[type="number"] {
             width: 100px;
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -56,9 +65,11 @@
             font-size: 16px;
             margin: 5px;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         .result-section {
             background-color: #f9f9f9;
             padding: 15px;
@@ -66,15 +77,19 @@
             margin-top: 20px;
             display: none;
         }
+
         .mode-selection {
             text-align: center;
             margin: 20px 0;
         }
-        .project-selection, .gender-selection {
+
+        .project-selection,
+        .gender-selection {
             display: none;
             text-align: center;
             margin: 20px 0;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -83,8 +98,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgba(0, 0, 0, 0.4);
         }
+
         .modal-content {
             background-color: #fefefe;
             margin: 15% auto;
@@ -93,30 +109,36 @@
             width: 300px;
             border-radius: 5px;
         }
+
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
+
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
         }
+
         .developer-section {
             display: none;
             text-align: center;
         }
+
         .tabs {
             overflow: hidden;
             border: 1px solid #ccc;
             background-color: #f1f1f1;
             border-radius: 5px 5px 0 0;
         }
+
         .tab-button {
             background-color: inherit;
+            color: black;
             float: left;
             border: none;
             outline: none;
@@ -124,13 +146,17 @@
             padding: 14px 16px;
             transition: 0.3s;
             font-size: 16px;
+
         }
+
         .tab-button:hover {
             background-color: #ddd;
         }
+
         .tab-button.active {
             background-color: #ccc;
         }
+
         .tab-content {
             display: none;
             padding: 20px;
@@ -138,16 +164,18 @@
             border-top: none;
             border-radius: 0 0 5px 5px;
         }
+
         .tab-content.active {
             display: block;
         }
     </style>
-</style>
+    </style>
 </head>
+
 <body>
     <div class="container">
         <h1>中考折分计算系统(简称:考计)</h1>
-        
+
         <div class="info-section">
             <p>作者: Winme</p>
             <p>特别鸣谢: Nova-lee,Kimi,DeepSeek,Fitten,Hunyuan,LingMa</p>
@@ -155,43 +183,44 @@
             <p>注意事项:本网站仅适用于计算施行折分政策地区的中考折分分数,所得结果会与实际得分有误差,仅供参考！如果有问题请联系作者:(QQ:1175746324)</p>
             <p>参考文件:《湛江市教育局关于进一步推进高中阶段学校考试招生制度改革的实施意见》(2022年2月14日湛江市人民政府官网公开)</p>
         </div>
-        
+
         <div class="mode-selection">
             <h2>折分模式选择</h2>
             <button onclick="selectMode('sports')">体育项目折分</button>
             <button onclick="selectMode('comprehensive')">综合科目折分</button>
-            <button onclick="extraCommand('查分')">查分</button>
+            <button onclick="extraCommand('查分')">睿芽官网</button>
+            <button onclick="extraCommand('湛江中考查分')">湛江市中考成绩查询</button>
             <button onclick="extraCommand('查看参考文件')">查看参考文件</button>
-            <button onclick="showDeveloperAuth()">启用开发者模式</button>
+            <button onclick="showDeveloperAuth()">开发者模式</button>
         </div>
-        
+
         <!-- 体育项目折分部分 -->
         <div id="sports-section" class="input-section" style="display:none;">
             <h2>体育项目折分</h2>
-            
+
             <div class="gender-selection" id="gender-selection">
                 <h3>请选择性别</h3>
                 <button onclick="selectGender('male')">♂ 男</button>
                 <button onclick="selectGender('female')">♀ 女</button>
             </div>
-            
+
             <div class="project-selection" id="project-selection">
                 <h3>请选择项目</h3>
                 <button onclick="selectProject('实心球')">实心球</button>
                 <button onclick="selectProject('跳远')">跳远</button>
                 <button onclick="selectProject('跳绳')">跳绳</button>
             </div>
-            
+
             <div id="score-inputs">
                 <!-- 动态生成输入框 -->
             </div>
-            
+
             <div>
                 <button onclick="calculateSportsScore()">计算分数</button>
                 <button onclick="resetSports()">重新选择</button>
             </div>
         </div>
-        
+
         <!-- 综合科目折分部分 -->
         <div id="comprehensive-section" class="input-section" style="display:none;">
             <h2>综合科目折分</h2>
@@ -252,14 +281,14 @@
                 <button onclick="resetComprehensive()">重置</button>
             </div>
         </div>
-        
+
         <!-- 结果显示部分 -->
         <div id="result-section" class="result-section">
             <h2>计算结果</h2>
             <div id="result-content"></div>
             <button onclick="hideResult()">返回</button>
         </div>
-        
+
         <!-- 开发者认证 -->
         <div id="developer-auth" class="developer-section">
             <h2>开发者身份验证</h2>
@@ -273,25 +302,25 @@
             </div>
             <button onclick="authenticateDeveloper()">验证</button>
         </div>
-        
+
         <!-- 开发者模式 -->
         <div id="developer-mode" class="developer-section">
-            <h2>开发者模式已启用!</h2>
+            <h2>已进入开发者模式!</h2>
             <div class="tabs">
                 <button class="tab-button" onclick="openTab(event, 'tab2')">关于</button>
                 <button class="tab-button" onclick="exitDeveloperMode()">退出开发者模式</button>
             </div>
-            
+
             <div id="tab2" class="tab-content">
                 <p>版本信息如下</p>
                 <p>程序名称:中考折分计算系统(简称:考计)</p>
                 <p>版本:Wm_1.22.6(Y2025_M7_D2最终正式版)</p>
-                <p>逻辑内核:Python-考计3&1-Fuse+Upgrade转html</p>
+                <p>逻辑内核:Python&html-考计3&1-Fuse+Upgrade</p>
                 <p>开发语言:Python3.12.6转html</p>
                 <p>开发环境:Windows10+IDE_VScode</p>
                 <p>开发者:Winme吾梦(姚ZS)</p>
                 <p>参与:Nova-lee,Kimi,DeepSeek,Fitten,Hunyuan,LingMa</p>
-	
+
             </div>
         </div>
     </div>
@@ -301,7 +330,7 @@
         let selectedGender = '';
         let selectedProject = '';
         let currentMode = '';
-        
+
         // 显示模式选择
         function selectMode(mode) {
             currentMode = mode;
@@ -310,7 +339,7 @@
             document.getElementById('result-section').style.display = 'none';
             document.getElementById('developer-auth').style.display = 'none';
             document.getElementById('developer-mode').style.display = 'none';
-            
+
             if (mode === 'sports') {
                 document.getElementById('sports-section').style.display = 'block';
                 document.getElementById('gender-selection').style.display = 'block';
@@ -320,35 +349,35 @@
                 document.getElementById('comprehensive-section').style.display = 'block';
             }
         }
-        
+
         // 选择性别
         function selectGender(gender) {
             selectedGender = gender;
             document.getElementById('gender-selection').style.display = 'none';
             document.getElementById('project-selection').style.display = 'block';
         }
-        
+
         // 选择项目
         function selectProject(project) {
             selectedProject = project;
             document.getElementById('project-selection').style.display = 'none';
-            
+
             // 根据性别和项目生成输入框
             generateScoreInputs();
         }
-        
+
         // 生成体育成绩输入框
         function generateScoreInputs() {
             const container = document.getElementById('score-inputs');
             let html = '';
-            
+
             // 耐力跑项目
             if (selectedGender === 'male') {
                 html += '<div class="input-group"><label for="endurance">1000米成绩(秒):</label><input type="number" id="endurance" min="0" step="0.1"></div>';
             } else {
                 html += '<div class="input-group"><label for="endurance">800米成绩(秒):</label><input type="number" id="endurance" min="0" step="0.1"></div>';
             }
-            
+
             // 其他项目
             if (selectedProject === '实心球') {
                 html += '<div class="input-group"><label for="project-score">实心球成绩(米):</label><input type="number" id="project-score" min="0" step="0.1"></div>';
@@ -357,23 +386,23 @@
             } else if (selectedProject === '跳绳') {
                 html += '<div class="input-group"><label for="project-score">跳绳成绩(个):</label><input type="number" id="project-score" min="0" step="1"></div>';
             }
-            
+
             container.innerHTML = html;
         }
-        
+
         // 计算体育分数
         function calculateSportsScore() {
             const endurance = parseFloat(document.getElementById('endurance').value);
             const projectScore = parseFloat(document.getElementById('project-score').value);
-            
+
             if (isNaN(endurance) || isNaN(projectScore)) {
                 alert('请输入有效的成绩');
                 return;
             }
-            
+
             let score1 = 0; // 耐力跑得分
             let score2 = 0; // 项目得分
-            
+
             // 计算耐力跑得分
             if (selectedGender === 'male') {
                 // 1000米
@@ -398,7 +427,7 @@
                     score1 = 0;
                 }
             }
-            
+
             // 计算项目得分
             if (selectedProject === '实心球') {
                 if (selectedGender === 'male') {
@@ -460,10 +489,10 @@
                     score2 = 0;
                 }
             }
-            
+
             // 计算总分
             const overall = (score1 + score2) * 0.4;
-            
+
             // 显示结果
             const resultContent = document.getElementById('result-content');
             resultContent.innerHTML = `
@@ -474,10 +503,10 @@
                 <p>你的项目总得分为: ${(score1 + score2).toFixed(2)}</p>
                 <p>你的项目总得分(折算)为: ${overall.toFixed(2)}</p>
             `;
-            
+
             document.getElementById('result-section').style.display = 'block';
         }
-        
+
         // 重置体育选择
         function resetSports() {
             selectedGender = '';
@@ -487,7 +516,7 @@
             document.getElementById('project-selection').style.display = 'none';
             document.getElementById('score-inputs').innerHTML = '';
         }
-        
+
         // 计算综合科目分数
         function calculateComprehensiveScore() {
             // 获取输入值
@@ -504,7 +533,7 @@
             const CE = parseFloat(document.getElementById('CE').value);
             const politics = parseFloat(document.getElementById('politics').value);
             const sport = parseFloat(document.getElementById('sport').value);
-            
+
             // 验证输入
             if (isNaN(chinese) || chinese < 0 || chinese > 120) {
                 alert('请输入有效的语文成绩(0-120)');
@@ -558,14 +587,14 @@
                 alert('请输入有效的体育成绩(0-80)');
                 return;
             }
-            
+
             // 英语计算
             const g = english * (5 / 6);
-            
+
             // 生地计算
             let BEb = BE + biology * 0.9;
             let geographyScore = geography;
-            
+
             if (geography >= biology) {
                 if (biology > 80) {
                     BEb = 40;
@@ -589,13 +618,13 @@
                     BEb = BEb * 0.5;
                 }
             }
-            
+
             const b = BEb + geographyScore;
-            
+
             // 物史计算
             let PEp = PE + physics * 0.9;
             let historyScore = history;
-            
+
             if (physics >= history) {
                 if (history >= 80) {
                     historyScore = 50;
@@ -619,13 +648,13 @@
                     historyScore = historyScore * 0.8;
                 }
             }
-            
+
             const c = historyScore + PEp;
-            
+
             // 化道计算
             let CEc = CE + chemistry * 0.9;
             let politicsScore = politics;
-            
+
             if (chemistry >= politics) {
                 if (politics >= 80) {
                     politicsScore = 50;
@@ -649,13 +678,13 @@
                     politicsScore = politicsScore * 0.7;
                 }
             }
-            
+
             const d = CEc + politicsScore;
-            
+
             // 总分计算
             const a = chinese + mathematics + sport + g;
             const f = a + b + c + d;
-            
+
             // 显示结果
             const resultContent = document.getElementById('result-content');
             resultContent.innerHTML = `
@@ -681,10 +710,10 @@
                 <p>全科满分760</p>
                 <p>你的全科总得分为: ${f.toFixed(2)}</p>
             `;
-            
+
             document.getElementById('result-section').style.display = 'block';
         }
-        
+
         // 重置综合科目
         function resetComprehensive() {
             document.getElementById('chinese').value = '';
@@ -701,21 +730,23 @@
             document.getElementById('politics').value = '';
             document.getElementById('sport').value = '';
         }
-        
+
         // 隐藏结果
         function hideResult() {
             document.getElementById('result-section').style.display = 'none';
         }
-        
+
         // 额外命令处理
         function extraCommand(command) {
             if (command === '查分') {
                 window.open('http://x.onlyets.com/Login.aspx', '_blank');
             } else if (command === '查看参考文件') {
                 window.open('https://www.zhanjiang.gov.cn/zjsfw/gab/jryw/content/post_1573948.html', '_blank');
+            } else if (command === '湛江中考查分') {
+                window.open('http://zk.jyj.zhanjiang.gov.cn/', '_blank');
             }
         }
-        
+
         // 显示开发者认证
         function showDeveloperAuth() {
             document.getElementById('sports-section').style.display = 'none';
@@ -724,12 +755,12 @@
             document.getElementById('developer-auth').style.display = 'block';
             document.getElementById('developer-mode').style.display = 'none';
         }
-        
+
         // 开发者认证
         function authenticateDeveloper() {
             const username = document.getElementById('dev-username').value;
             const password = document.getElementById('dev-password').value;
-            
+
             if (username === '吾梦' && password === 'WM114514') {
                 document.getElementById('developer-auth').style.display = 'none';
                 document.getElementById('developer-mode').style.display = 'block';
@@ -737,7 +768,7 @@
                 alert('账号或密码错误，请重新输入！');
             }
         }
-        
+
         // 退出开发者模式
         function exitDeveloperMode() {
             document.getElementById('developer-mode').style.display = 'none';
@@ -747,7 +778,7 @@
             document.getElementById('comprehensive-section').style.display = 'none';
             document.getElementById('result-section').style.display = 'none';
         }
-        
+
         // 标签页切换
         function openTab(evt, tabName) {
             var i, tabcontent, tabbuttons;
@@ -764,4 +795,5 @@
         }
     </script>
 </body>
+
 </html>
