@@ -17,14 +17,31 @@
             max-width: 800px;
             margin: 0 auto;
             background-color: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         h1 {
             text-align: center;
             color: #333;
+            margin-top: 20px;
+        }
+
+        /* 右上角关于和支持作者 */
+        .header-info {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .header-info p {
+            margin: 2px 0;
         }
 
         .info-section {
@@ -81,6 +98,54 @@
         .mode-selection {
             text-align: center;
             margin: 20px 0;
+        }
+
+        /* 竖直两栏布局 */
+        .mode-columns {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .mode-column {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .mode-column.left {
+            background-color: #f0f8ff;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        .mode-column.right {
+            background-color: #fff8f0;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .mode-column h2 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .mode-column.left h2 {
+            color: #2196F3;
+        }
+
+        .mode-column.right h2 {
+            color: #FF9800;
+        }
+
+        /* 分隔线 */
+        .divider {
+            width: 2px;
+            background-color: #ddd;
+            align-self: stretch;
+            margin: 0 10px;
         }
 
         .project-selection,
@@ -146,7 +211,6 @@
             padding: 14px 16px;
             transition: 0.3s;
             font-size: 16px;
-
         }
 
         .tab-button:hover {
@@ -168,30 +232,66 @@
         .tab-content.active {
             display: block;
         }
-    </style>
+
+        @media (max-width: 768px) {
+            .mode-columns {
+                flex-direction: column;
+            }
+
+            .divider {
+                display: none;
+            }
+
+            .header-info {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+
         <h1>大考分数折赋计算系统(简称:考计)</h1>
 
         <div class="info-section">
             <p>作者: Winme</p>
-            <p>特别鸣谢: Nova-lee,Kimi,DeepSeek,Fitten,Hunyuan,LingMa</p>
-            <p>版本: Wm_1.22.6(Y2025_M7_D2最终正式版)</p>
-            <p>注意事项:本网站仅适用于计算施行折分政策地区(如：湛江市)的中考折分分数,所得结果会与实际得分有误差,仅供参考！如果有问题请联系作者:(QQ:1175746324)</p>
+            <p>版本: Wm_2.1.1(Y2025_M7_D2最终正式版)</p>
+            <p>注意事项:
+                <br>1.使用本网站请务必先阅读注意事项及用户须知(协议)！
+                <br>2.本网站仅适用于计算施行折赋分政策(详见参考文件)地区的中,高考分数,所得结果会与实际得分有误差,仅供参考！
+                <br>3.如果有使用问题可联系作者(QQ:1175746324)
+            </p>
             <p>参考文件:《湛江市教育局关于进一步推进高中阶段学校考试招生制度改革的实施意见》(2022年2月14日湛江市人民政府官网公开)</p>
         </div>
 
         <div class="mode-selection">
             <h2>折分模式选择</h2>
-            <button onclick="selectMode('sports')">体育项目折分</button>
-            <button onclick="selectMode('comprehensive')">综合科目折分</button>
-            <button onclick="extraCommand('查分')">睿芽官网</button>
-            <button onclick="extraCommand('湛江中考查分')">湛江市中考成绩查询</button>
-            <button onclick="extraCommand('查看参考文件')">查看参考文件</button>
-            <button onclick="showDeveloperAuth()">开发者模式</button>
+            <div class="mode-columns">
+                <div class="mode-column left">
+                    <h2>中考</h2>
+                    <button onclick="selectMode('sports')">体育项目折分</button>
+                    <button onclick="selectMode('comprehensive')">综合科目折分</button>
+                    <button onclick="extraCommand('湛江中考查分')">湛江市中考成绩查询</button>
+                    <button onclick="extraCommand('查看参考文件')">查看参考文件</button>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="mode-column right">
+                    <h2>高考</h2>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="showDeveloperAuth()">开发者模式</button>
+            </div>
         </div>
 
         <!-- 体育项目折分部分 -->
@@ -320,7 +420,6 @@
                 <p>开发环境:Windows10+IDE_VScode</p>
                 <p>开发者:Winme吾梦(姚ZS)</p>
                 <p>参与:Nova-lee,Kimi,DeepSeek,Fitten,Hunyuan,LingMa</p>
-
             </div>
 
             <div id="tab3" class="tab-content">
@@ -742,11 +841,7 @@
 
         // 额外命令处理
         function extraCommand(command) {
-            if (command === '查分') {
-                window.open('http://x.onlyets.com/Login.aspx', '_blank');
-            } else if (command === '查看参考文件') {
-                window.open('https://www.zhanjiang.gov.cn/zjsfw/gab/jryw/content/post_1573948.html', '_blank');
-            } else if (command === '湛江中考查分') {
+            if (command === '湛江中考查分') {
                 window.open('http://zk.jyj.zhanjiang.gov.cn/', '_blank');
             }
         }
@@ -801,6 +896,3 @@
 </body>
 
 </html>
-
-
-
