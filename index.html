@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <title>78长度查询器</title>
     <style>
         * {
@@ -35,7 +36,8 @@
             border-radius: 20px;
             padding: 24px;
             box-shadow: 0 10px 25px -5px rgba(74, 137, 220, 0.1), 0 8px 10px -6px rgba(74, 137, 220, 0.05);
-            transition: all .5s ease
+            transition: all .5s ease;
+            position: relative
         }
 
         .card:hover {
@@ -221,39 +223,36 @@
             color: #4b5563
         }
 
-        .more-btn {
-            position: fixed;
-            width: 38px;
-            height: 38px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            font-size: 13px;
-            line-height: 34px;
+        .special-result {
+            color: #FF6B6B;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .negative-result {
+            color: #888;
+            text-shadow: 0 0 10px rgba(136, 136, 136, 0.5);
+        }
+
+        /* 新增底部链接样式 */
+        .footer-link {
             text-align: center;
-            bottom: 60px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: 99999;
-            display: none;
-            transition: all .3s ease
-        }
-
-        .more-btn:hover {
-            transform: scale(1.1)
-        }
-
-        .more-btn a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            width: 100%;
-            height: 100%
-        }
-
-        .wdiy1-title {
-            color: #e60f00;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
             font-size: 0.75rem;
-            margin-top: 0px
+            color: #ff1919;
+            line-height: 1.5
+        }
+
+        .footer-link a {
+            color: #4A89DC;
+            text-decoration: none;
+            transition: color 0.2s ease
+        }
+
+        .footer-link a:hover {
+            color: #3a7bd5;
+            text-decoration: underline
         }
     </style>
 </head>
@@ -269,7 +268,6 @@
             <input type="text" id="username" class="username-input" placeholder="请输入用户名">
             <button id="analyzeBtn" class="analyze-btn"><span>开始查询</span></button>
         </div>
-        <p class="wdiy1-title">*注:"全球可飞(吾)"是修改者而非原作者</p>
         <div id="resultSection" class="result-section">
             <h2 class="result-title">分析结果</h2>
             <div class="username-result">
@@ -283,34 +281,61 @@
                     <div id="progressBar" class="progress-bar"></div>
                 </div>
                 <div class="progress-labels">
-                    <span>-10-5</span><span>6-10</span><span>11-13</span><span>14-16</span><span>17-20</span><span>21-25</span>
+                    <span>0-5</span><span>6-10</span><span>11-13</span><span>14-16</span><span>17-20</span><span>21-25</span>
                 </div>
             </div>
             <div class="evaluation">
                 <p id="evaluation">分析...</p>
             </div>
         </div>
+
+        <!-- 新增底部链接 -->
+        <div class="footer-link">
+            *注:原链接:<a href="https://kk.140.icu/192/" target="_blank">kk.140.icu , </a>
+            二次链接:<a href="https://rollingfunny.dpdns.org/192/" target="_blank">rollingfunny.dpdns.org</a><br>
+            我"全球可飞(吾)"也不是原作者,我是在二次链接(我所接触的最后一位修改者的版本)的基础之上修改而来,也保留了前一位修改者的所有修改部分,仅供娱乐侵删
+        </div>
     </div>
-    <div class="more-btn" id="more-btn"><a href="">更多</a></div>
     <script>
-        const clickSound = new Audio('static/1.mp3');
-        function initMoreBtnLink() { const e = document.querySelector('.more-btn a'); fetch('../domain.php').then(r => { if (!r.ok) throw new Error(`请求失败：${r.status}`); return r.json() }).then(d => { d && d.success && "string" == typeof d.domain && d.domain.trim() && (e.href = d.domain.trim()) }).catch(e => { }) }
-        window.onload = () => initMoreBtnLink();
-        const [analyzeBtn, usernameInput, resultSection, resultUsername, lengthResult, progressBar, evaluation, moreBtn] = ['analyzeBtn', 'username', 'resultSection', 'resultUsername', 'lengthResult', 'progressBar', 'evaluation', 'more-btn'].map(id => document.getElementById(id));
+        // 模拟点击音效（由于没有实际文件，这里使用空函数）
+        const clickSound = {
+            play: () => Promise.resolve()
+        };
 
-        // function getRandomLength() {
-        //     const r = Math.random() * 100;
-        //     if (r < 20) return Math.floor(Math.random() * 6);
-        //     if (r < 35) return Math.floor(Math.random() * 5) + 6;
-        //     if (r < 45) return Math.floor(Math.random() * 3) + 11;
-        //     if (r < 55) return Math.floor(Math.random() * 3) + 14;
-        //     if (r < 75) return Math.floor(Math.random() * 4) + 17;
-        //     return Math.random() > 0.5 ? Math.floor(Math.random() * 5) + 21 : Math.floor(Math.random() * 901) + 100;
-        // }
+        const [analyzeBtn, usernameInput, resultSection, resultUsername, lengthResult, progressBar, evaluation] =
+            ['analyzeBtn', 'username', 'resultSection', 'resultUsername', 'lengthResult', 'progressBar', 'evaluation'].map(id => document.getElementById(id));
 
-        function getRandomLength() {
+        // 特殊用户名列表
+        const specialUsernames = [
+            "Twi", "twi", "twistar", "Twistar", "TwiStar",
+            "暮星", "暮星Twi", "暮星TwiStar", "暮星twistar",
+            "twistar_", "airer_", "airer"
+        ];
+
+        // 检查是否为特殊用户名
+        function isSpecialUsername(username) {
+            return username === "辣椒滑稽果", "王圣博";
+        }
+
+        // 检查是否为负值用户名
+        function isNegativeUsername(username) {
+            return specialUsernames.includes(username);
+        }
+
+        // 获取随机长度（修改为支持特殊用户名）
+        function getRandomLength(username) {
+            // 如果是负值用户名，返回-1
+            if (isNegativeUsername(username)) {
+                return -1;
+            }
+
+            // 如果是特殊用户名，返回特殊值
+            if (isSpecialUsername(username)) {
+                return 10000; // 10000km
+            }
+
             const r = Math.random() * 100;
-            if (r < 20) return Math.floor(Math.random() * 6) - 10;
+            if (r < 20) return Math.floor(Math.random() * 6);
             if (r < 35) return Math.floor(Math.random() * 5) + 6;
             if (r < 45) return Math.floor(Math.random() * 3) + 11;
             if (r < 55) return Math.floor(Math.random() * 3) + 14;
@@ -331,36 +356,74 @@
 
             setTimeout(() => {
                 resultSection.classList.add('show');
-                moreBtn.style.display = 'block';
                 resultUsername.textContent = username;
-                const len = getRandomLength();
-                const minValue = -10;
-                const maxValue = 25;
-                const range = maxValue - minValue;
-                const percentage = Math.max(0, Math.min(100, (len - minValue) / range * 100));
-                progressBar.style.width = `${percentage}%`;
 
+                const isSpecial = isSpecialUsername(username);
+                const isNegative = isNegativeUsername(username);
+                const len = getRandomLength(username);
+
+                // 根据用户名类型设置不同的单位、显示值和进度条
+                let unit = 'cm';
+                let displayValue = len;
+                let progressWidth = len >= 100 ? 100 : len / 25 * 100;
+
+                // 负值用户名的特殊处理
+                if (isNegative) {
+                    unit = 'cm';
+                    displayValue = -1;
+                    progressWidth = 0; // 进度条为0
+                    lengthResult.classList.add('negative-result'); // 添加负值样式
+                    lengthResult.classList.remove('special-result'); // 移除特殊样式
+                }
+                // 特殊用户名的处理
+                else if (isSpecial) {
+                    unit = 'km';
+                    displayValue = 10000;
+                    progressWidth = 100; // 进度条满格
+                    lengthResult.classList.add('special-result'); // 添加特殊样式
+                    lengthResult.classList.remove('negative-result'); // 移除负值样式
+                }
+                // 普通用户名的处理
+                else {
+                    lengthResult.classList.remove('special-result', 'negative-result'); // 移除所有特殊样式
+                }
+
+                // 评价内容
                 const evals = {
-                    sb: ['神人！倒贴78这是', '飞舞！你这长度还没"全球可飞"的长', '告诉你个秘密,"全球可飞的78长度数值为-91"'],
                     s: ['略短：别灰心，还有成长空间', '略短：不必焦虑，尺寸并非一切', '略短：保持自信，内在更重要'],
                     sh: ['较短：还算正常范围', '较短：多数人的水平，不必担心', '较短：够用就好，无需过度比较'],
                     ml: ['中等偏下：仍需努力', '中等偏下：中间水平，还有提升空间', '中等偏下：日常使用足够，不必苛求'],
                     m: ['中规中矩：还行吧,不算丢人', '中规中矩：标准水平，无需自卑', '中规中矩：大多数人羡慕的程度'],
                     g: ['良好：超过平均水平', '良好：已经很出色了，值得肯定', '良好：超越多数人，继续保持'],
-                    e: ['优秀：值得骄傲的长度', '优秀：相当出色，令人羡慕', '优秀：顶级水平，无需低调']
+                    e: ['优秀：值得骄傲的长度', '优秀：相当出色，令人羡慕', '优秀：顶级水平，无需低调'],
+                    special: ['逆天：这是传说中的宇宙级长度！', '无敌：此长度已突破天际！', '神话：这是神话传说中的长度！'],
+                    negative: ['拉完了，你没有78', '拉完了，你没有78', '拉完了，你没有78'] // 负值用户的固定评价
                 };
 
                 let evalText;
-                if (len <= 0) evalText = evals.sb[Math.floor(Math.random() * 3)];
-                else if (len <= 5) evalText = evals.s[Math.floor(Math.random() * 3)];
-                else if (len <= 10) evalText = evals.sh[Math.floor(Math.random() * 3)];
-                else if (len <= 13) evalText = evals.ml[Math.floor(Math.random() * 3)];
-                else if (len <= 16) evalText = evals.m[Math.floor(Math.random() * 3)];
-                else if (len <= 20) evalText = evals.g[Math.floor(Math.random() * 3)];
-                else evalText = evals.e[Math.floor(Math.random() * 3)];
+                if (isNegative) {
+                    evalText = evals.negative[0]; // 固定评价
+                } else if (isSpecial) {
+                    evalText = evals.special[Math.floor(Math.random() * 3)];
+                } else if (len <= 5) {
+                    evalText = evals.s[Math.floor(Math.random() * 3)];
+                } else if (len <= 10) {
+                    evalText = evals.sh[Math.floor(Math.random() * 3)];
+                } else if (len <= 13) {
+                    evalText = evals.ml[Math.floor(Math.random() * 3)];
+                } else if (len <= 16) {
+                    evalText = evals.m[Math.floor(Math.random() * 3)];
+                } else if (len <= 20) {
+                    evalText = evals.g[Math.floor(Math.random() * 3)];
+                } else {
+                    evalText = evals.e[Math.floor(Math.random() * 3)];
+                }
 
+                progressBar.style.width = `${progressWidth}%`;
                 evaluation.textContent = evalText;
-                animateValue(lengthResult, 0, len, 1500);
+
+                // 修改动画函数以支持单位
+                animateValue(lengthResult, 0, displayValue, 1500, unit);
 
                 // 分析完成启用输入框，允许重新修改
                 usernameInput.disabled = false;
@@ -372,13 +435,25 @@
 
         usernameInput.addEventListener('keypress', e => e.key === 'Enter' && analyzeBtn.click());
 
-        function animateValue(el, s, e, d) {
-            let st = null;
-            const step = t => {
-                st || (st = t);
-                const p = Math.min((t - st) / d, 1);
-                el.textContent = `${Math.floor(p * (e - s) + s)}cm`;
-                p < 1 && requestAnimationFrame(step);
+        // 修改动画函数以支持单位
+        function animateValue(el, start, end, duration, unit) {
+            let startTime = null;
+            const step = (timestamp) => {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+
+                // 处理负值动画
+                let currentValue = Math.floor(progress * (end - start) + start);
+
+                // 如果目标值是负数，确保动画正确递减
+                if (end < start) {
+                    currentValue = Math.ceil(start - (start - end) * progress);
+                }
+
+                el.textContent = `${currentValue}${unit}`;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
             };
             requestAnimationFrame(step);
         }
