@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>银角模拟器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        body.dark-theme {
+            background-color: #2c2c2c;
+            color: #f0f0f0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .dark-theme .theme-toggle {
+            background: #555;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .dark-theme .container {
+            background: #3c3c3c;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .character-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .character-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+
+        .character-card {
+            background: #f8f8f8;
+            border-radius: 6px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #eee;
+        }
+
+        .dark-theme .character-card {
+            background: #4c4c4c;
+            border: 1px solid #5c5c5c;
+        }
+
+        .character-card:hover {
+            background: #e8e8e8;
+            transform: translateY(-2px);
+        }
+
+        .dark-theme .character-card:hover {
+            background: #5c5c5c;
+        }
+
+        .character-card:active {
+            transform: translateY(0);
+        }
+
+        .character-name {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .dark-theme .character-name {
+            color: #f0f0f0;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: #eee;
+            border-radius: 3px;
+            margin: 25px 0 15px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .dark-theme .progress-container {
+            background-color: #555;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #4a90e2;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .now-playing {
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            height: 1.5em;
+            color: #555;
+        }
+
+        .dark-theme .now-playing {
+            color: #aaa;
+        }
+
+        footer {
+            color: #666;
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .dark-theme footer {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle" id="themeToggle">深色模式</button>
+    
+    <div class="header">
+        <h1>银角模拟器</h1>
+        <p>作者：未知</p>
+    </div>
+
+    <div class="container">
+        <div class="now-playing" id="nowPlaying">请选择一个角色</div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="character-grid">
+            <div class="character-card" data-character="shiroko">
+                <div class="character-name">白子</div>
+            </div>
+            <div class="character-card" data-character="yuzu">
+                <div class="character-name">柚子</div>
+            </div>
+            <div class="character-card" data-character="hoshino">
+                <div class="character-name">鸟野</div>
+            </div>
+            <div class="character-card" data-character="ch0070">
+                <div class="character-name">圣娅</div>
+            </div>
+            <div class="character-card" data-character="momoi">
+                <div class="character-name">桃井</div>
+            </div>
+            <div class="character-card" data-character="koharu">
+                <div class="character-name">小春</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        银角模拟器 © 2025
+    </footer>
+
+    <audio id="shiroko-audio" src="sounds/shiroko.mp3"></audio>
+    <audio id="yuzu-audio" src="sounds/yuzu.mp3"></audio>
+    <audio id="hoshino-audio" src="sounds/hoshino.mp3"></audio>
+    <audio id="ch0070-audio" src="sounds/ch0070.mp3"></audio>
+    <audio id="momoi-audio" src="sounds/Momoi.mp3"></audio>
+    <audio id="koharu-audio" src="sounds/koharu.mp3"></audio>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // 检查用户之前选择的主题
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggle.textContent = '浅色模式';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            
+            // 保存用户选择的主题
+            if (body.classList.contains('dark-theme')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.textContent = '浅色模式';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.textContent = '深色模式';
+            }
+        });
+
+        // 音频元素
+        const shirokoAudio = document.getElementById('shiroko-audio');
+        const yuzuAudio = document.getElementById('yuzu-audio');
+        const hoshinoAudio = document.getElementById('hoshino-audio');
+        const ch0070Audio = document.getElementById('ch0070-audio');
+        const momoiAudio = document.getElementById('momoi-audio');
+        const koharuAudio = document.getElementById('koharu-audio');
+
+        const audioElements = {
+            'shiroko': shirokoAudio,
+            'yuzu': yuzuAudio,
+            'hoshino': hoshinoAudio,
+            'ch0070': ch0070Audio,
+            'momoi': momoiAudio,
+            'koharu': koharuAudio
+        };
+
+        const characterNames = {
+            'shiroko': '白子',
+            'yuzu': '柚子',
+            'hoshino': '鸟野',
+            'ch0070': '圣娅',
+            'momoi': '桃井',
+            'koharu': '小春'
+        };
+
+        const nowPlaying = document.getElementById('nowPlaying');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+
+        // 为所有角色卡片添加点击事件
+        document.querySelectorAll('.character-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const character = card.getAttribute('data-character');
+                const audioElement = audioElements[character];
+                
+                if (audioElement) {
+                    playAudioWithProgress(audioElement, characterNames[character]);
+                }
+            });
+        });
+
+        // 播放音频并显示进度条
+        function playAudioWithProgress(audioElement, characterName) {
+            // 停止其他正在播放的音频
+            stopAllAudio();
+
+            // 更新当前播放信息
+            nowPlaying.textContent = `正在播放: ${characterName}`;
+            
+            // 显示进度条
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+
+            // 开始播放音频
+            audioElement.play();
+
+            // 更新进度条
+            const updateProgress = () => {
+                if (!audioElement.paused && !audioElement.ended) {
+                    const progress = (audioElement.currentTime / audioElement.duration) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    requestAnimationFrame(updateProgress);
+                }
+            };
+
+            updateProgress();
+
+            // 音频播放结束后隐藏进度条
+            audioElement.addEventListener('ended', () => {
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    nowPlaying.textContent = '请选择一个角色';
+                }, 500);
+            }, { once: true });
+        }
+
+        // 停止所有音频
+        function stopAllAudio() {
+            Object.values(audioElements).forEach(audio => {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+        }
+    </script>
+</body>
+
+</html>
