@@ -14,7 +14,12 @@
 
         body {
             font-family: "Microsoft YaHei", Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: rgba(230, 230, 230, 0.75);
+            background-image: url('https://static.kivo.wiki/images/gallery/1.%E5%89%A7%E6%83%85-%E8%83%8C%E6%99%AF%E5%9B%BE/%E5%89%A7%E6%83%85&%E7%89%B9%E6%AE%8A/BG_AronaRoom.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,7 +29,8 @@
         }
 
         body.dark-theme {
-            background-color: #2c2c2c;
+            background-color: rgba(44, 44, 44, 0.75);
+            background-image: url('https://static.kivo.wiki/images/gallery/1.%E5%89%A7%E6%83%85-%E8%83%8C%E6%99%AF%E5%9B%BE/%E5%89%A7%E6%83%85&%E7%89%B9%E6%AE%8A/BG_AronaRoom_Night.jpg');
             color: #f0f0f0;
         }
 
@@ -47,9 +53,9 @@
         .theme-toggle {
             position: absolute;
             top: 20px;
-            right: 20px;
-            background: #e0e0e0;
-            border: none;
+            right: 120px;
+            background: rgba(224, 224, 224, 0.75);
+            border: 1px solid #bbb;
             border-radius: 20px;
             padding: 8px 15px;
             cursor: pointer;
@@ -57,12 +63,32 @@
             transition: background 0.3s;
         }
 
+        .more-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(224, 224, 224, 0.75);
+            border: 1px solid #bbb;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .dark-theme .more-btn {
+            background: rgba(85, 85, 85, 0.75);
+            border: 1px solid #666;
+        }
+
         .dark-theme .theme-toggle {
-            background: #555;
+            background: rgba(85, 85, 85, 0.75);
+            border: 1px solid #666;
         }
 
         .container {
-            background: white;
+            background: rgba(240, 240, 240, 0.75);
+            border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
@@ -71,7 +97,7 @@
         }
 
         .dark-theme .container {
-            background: #3c3c3c;
+            background: rgba(60, 60, 60, 0.75);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -87,7 +113,7 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
-            
+
             .header h1 {
                 font-size: 1.7rem;
             }
@@ -98,18 +124,18 @@
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
-            
+
             .header h1 {
                 font-size: 1.5rem;
             }
-            
+
             .container {
                 padding: 20px;
             }
         }
 
         .character-card {
-            background: #f8f8f8;
+            background: rgba(248, 248, 248, 0.75);
             border-radius: 6px;
             padding: 15px 10px;
             text-align: center;
@@ -119,7 +145,7 @@
         }
 
         .dark-theme .character-card {
-            background: #4c4c4c;
+            background: rgba(76, 76, 76, 0.75);
             border: 1px solid #5c5c5c;
         }
 
@@ -148,7 +174,7 @@
         .progress-container {
             width: 100%;
             height: 6px;
-            background-color: #eee;
+            background-color: rgba(238, 238, 238, 0.75);
             border-radius: 3px;
             margin: 25px 0 15px 0;
             overflow: hidden;
@@ -156,7 +182,7 @@
         }
 
         .dark-theme .progress-container {
-            background-color: #555;
+            background-color: rgba(85, 85, 85, 0.75);
         }
 
         .progress-bar {
@@ -189,12 +215,26 @@
         .dark-theme footer {
             color: #aaa;
         }
+
+        footer a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .dark-theme footer a {
+            color: #6fb4ff;
+        }
     </style>
 </head>
 
 <body>
     <button class="theme-toggle" id="themeToggle">深色模式</button>
-    
+    <!-- <button class="more-btn" id="moreBtn">更多</button> -->
+
     <div class="header">
         <h1>银角模拟器</h1>
         <p>作者：吾喵~1175746324</p>
@@ -202,7 +242,7 @@
 
     <div class="container">
         <div class="now-playing" id="nowPlaying">请选择一个角色</div>
-        
+
         <div class="progress-container" id="progressContainer">
             <div class="progress-bar" id="progressBar"></div>
         </div>
@@ -226,11 +266,24 @@
             <div class="character-card" data-character="koharu">
                 <div class="character-name">下江小春</div>
             </div>
+            <div class="character-card" data-character="yuuka">
+                <div class="character-name">早濑优香</div>
+            </div>
+            <div class="character-card" data-character="aris">
+                <div class="character-name">天童爱丽丝</div>
+            </div>
+            <div class="character-card" data-character="hanako">
+                <div class="character-name">浦和花子</div>
+            </div>
+            <div class="character-card" data-character="hina">
+                <div class="character-name">空崎日奈</div>
+            </div>
         </div>
     </div>
 
     <footer>
         <!-- 银角模拟器 © 2025 -->
+        <p>*本站语音资源均来自<a href="https://kivo.wiki/" target="_blank">基沃托斯古书馆</a>，仅供娱乐。</p>
     </footer>
 
     <audio id="shiroko-audio" src="shiroko.mp3"></audio>
@@ -239,23 +292,25 @@
     <audio id="ch0070-audio" src="ch0070.mp3"></audio>
     <audio id="momoi-audio" src="Momoi.mp3"></audio>
     <audio id="koharu-audio" src="koharu.mp3"></audio>
+    <audio id="yuuka-audio" src="yuuka.mp3"></audio>
+    <audio id="aris-audio" src="aris.mp3"></audio>
+    <audio id="hanako-audio" src="hanako.mp3"></audio>
+    <audio id="hina-audio" src="hina.mp3"></audio>
 
     <script>
-        // 主题切换功能
         const themeToggle = document.getElementById('themeToggle');
+        const moreBtn = document.getElementById('moreBtn');
         const body = document.body;
-        
-        // 检查用户之前选择的主题
+
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme === 'dark') {
             body.classList.add('dark-theme');
             themeToggle.textContent = '浅色模式';
         }
-        
+
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-theme');
-            
-            // 保存用户选择的主题
+
             if (body.classList.contains('dark-theme')) {
                 localStorage.setItem('theme', 'dark');
                 themeToggle.textContent = '浅色模式';
@@ -265,6 +320,29 @@
             }
         });
 
+
+        // moreBtn.addEventListener('click', () => {
+        //     const password = prompt('请输入密码进入管理员面板:');
+        //     if (password) {
+        //         hashPassword(password).then(hashedPassword => {
+        //             const correctHash = '8c12bb1d035fb0bd20c3973eddbdef7d58688589e15f087c2a56d7a148e5eb43';
+        //             if (hashedPassword === correctHash) {
+        //                 window.location.href = 'admin.html';
+        //             } else {
+        //                 alert('密码错误！');
+        //             }
+        //         });
+        //     }
+        // });
+
+        // async function hashPassword(password) {
+        //     const encoder = new TextEncoder();
+        //     const data = encoder.encode(password);
+        //     const hash = await crypto.subtle.digest('SHA-256', data);
+        //     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        // }
+
+
         // 音频元素
         const shirokoAudio = document.getElementById('shiroko-audio');
         const yuzuAudio = document.getElementById('yuzu-audio');
@@ -272,6 +350,10 @@
         const ch0070Audio = document.getElementById('ch0070-audio');
         const momoiAudio = document.getElementById('momoi-audio');
         const koharuAudio = document.getElementById('koharu-audio');
+        const yuukaAudio = document.getElementById('yuuka-audio');
+        const arisAudio = document.getElementById('aris-audio');
+        const hanakoAudio = document.getElementById('hanako-audio');
+        const hinaAudio = document.getElementById('hina-audio');
 
         const audioElements = {
             'shiroko': shirokoAudio,
@@ -279,7 +361,11 @@
             'hoshino': hoshinoAudio,
             'ch0070': ch0070Audio,
             'momoi': momoiAudio,
-            'koharu': koharuAudio
+            'koharu': koharuAudio,
+            'yuuka': yuukaAudio,
+            'aris': arisAudio,
+            'hanako': hanakoAudio,
+            'hina': hinaAudio,
         };
 
         const characterNames = {
@@ -288,19 +374,22 @@
             'hoshino': '小鸟游星野',
             'ch0070': '百合园圣娅',
             'momoi': '才羽桃',
-            'koharu': '下江小春'
+            'koharu': '下江小春',
+            'yuuka': '早濑优香',
+            'aris': '天童爱丽丝',
+            'hanako': '浦和花子',
+            'hina': '空崎日奈',
         };
 
         const nowPlaying = document.getElementById('nowPlaying');
         const progressContainer = document.getElementById('progressContainer');
         const progressBar = document.getElementById('progressBar');
 
-        // 为所有角色卡片添加点击事件
         document.querySelectorAll('.character-card').forEach(card => {
             card.addEventListener('click', () => {
                 const character = card.getAttribute('data-character');
                 const audioElement = audioElements[character];
-                
+
                 if (audioElement) {
                     playAudioWithProgress(audioElement, characterNames[character]);
                 }
@@ -314,7 +403,7 @@
 
             // 更新当前播放信息
             nowPlaying.textContent = `正在播放: ${characterName}`;
-            
+
             // 显示进度条
             progressContainer.style.display = 'block';
             progressBar.style.width = '0%';
