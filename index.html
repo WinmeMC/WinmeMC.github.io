@@ -251,9 +251,9 @@
             <div class="character-card" data-character="shiroko">
                 <div class="character-name">砂狼白子</div>
             </div>
-            <div class="character-card" data-character="yuzu">
+            <!-- <div class="character-card" data-character="yuzu">
                 <div class="character-name">花冈柚子</div>
-            </div>
+            </div> -->
             <div class="character-card" data-character="hoshino">
                 <div class="character-name">小鸟游星野</div>
             </div>
@@ -278,6 +278,9 @@
             <div class="character-card" data-character="hina">
                 <div class="character-name">空崎日奈</div>
             </div>
+            <div class="character-card" data-character="316454311">
+                <div class="character-name">316454311</div>
+            </div>
         </div>
     </div>
 
@@ -296,6 +299,7 @@
     <audio id="aris-audio" src="aris.mp3"></audio>
     <audio id="hanako-audio" src="hanako.mp3"></audio>
     <audio id="hina-audio" src="hina.mp3"></audio>
+    <audio id="316454311-audio" src="316454311.mp3"></audio>
 
     <script>
         const themeToggle = document.getElementById('themeToggle');
@@ -320,29 +324,6 @@
             }
         });
 
-
-        // moreBtn.addEventListener('click', () => {
-        //     const password = prompt('请输入密码进入管理员面板:');
-        //     if (password) {
-        //         hashPassword(password).then(hashedPassword => {
-        //             const correctHash = '8c12bb1d035fb0bd20c3973eddbdef7d58688589e15f087c2a56d7a148e5eb43';
-        //             if (hashedPassword === correctHash) {
-        //                 window.location.href = 'admin.html';
-        //             } else {
-        //                 alert('密码错误！');
-        //             }
-        //         });
-        //     }
-        // });
-
-        // async function hashPassword(password) {
-        //     const encoder = new TextEncoder();
-        //     const data = encoder.encode(password);
-        //     const hash = await crypto.subtle.digest('SHA-256', data);
-        //     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        // }
-
-
         // 音频元素
         const shirokoAudio = document.getElementById('shiroko-audio');
         const yuzuAudio = document.getElementById('yuzu-audio');
@@ -354,6 +335,7 @@
         const arisAudio = document.getElementById('aris-audio');
         const hanakoAudio = document.getElementById('hanako-audio');
         const hinaAudio = document.getElementById('hina-audio');
+        const A316454311Audio = document.getElementById('316454311-audio');
 
         const audioElements = {
             'shiroko': shirokoAudio,
@@ -366,6 +348,7 @@
             'aris': arisAudio,
             'hanako': hanakoAudio,
             'hina': hinaAudio,
+            '316454311': A316454311Audio
         };
 
         const characterNames = {
@@ -379,6 +362,7 @@
             'aris': '天童爱丽丝',
             'hanako': '浦和花子',
             'hina': '空崎日奈',
+            "316454311": '316454311',
         };
 
         const nowPlaying = document.getElementById('nowPlaying');
