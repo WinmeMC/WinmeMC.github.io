@@ -4,35 +4,385 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" href="mika.png" type="image/png" />
-    <title>Winmeの个人网站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WinWeb</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: "Microsoft YaHei", Arial, sans-serif;
-            background-color: #00000091;
-            /* background-image: url("https://static.kivo.wiki/images/gallery/4.%E5%AE%98%E6%96%B9-%E5%A3%81%E7%BA%B8&%E8%B4%BA%E5%9B%BE/3eaa4a505c71e0a12a59f709dca8e45a3493265644980448.jpg"); */
-            /* background-image: url("https://static.kivo.wiki/images/gallery/4.%E5%AE%98%E6%96%B9-%E5%A3%81%E7%BA%B8&%E8%B4%BA%E5%9B%BE/4fes_teaparty.jpg"); */
-            background-image: url("https://static.kivo.wiki/images/gallery/22/FoAq1YEagAEq9eS.jpg");
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("https://static.kivo.wiki/images/gallery/4.%E5%AE%98%E6%96%B9-%E5%A3%81%E7%BA%B8&%E8%B4%BA%E5%9B%BE/3eaa4a505c71e0a12a59f709dca8e45a3493265644980448.jpg");
             background-size: cover;
+            background-color: #00000091;
             background-position: center;
             background-attachment: fixed;
             background-blend-mode: overlay;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            color: #ffffff;
+            line-height: 1.6;
+            backdrop-filter: blur(8px);
         }
 
-        h1 {
-            font-size: 50px;
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: flex-end;
+        }
+
+        nav li {
+            margin-left: 1.5rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            border: none;
+            background: none;
+        }
+
+        .circle-box {
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 20px;
+            max-width: calc(100% - 40px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            position: relative;
+            min-height: 300px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .custom-button {
+            background-color: rgba(100, 100, 255, 0.7);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 12px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 120px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .custom-button:hover {
+            background-color: rgba(100, 100, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-button {
+            background-color: rgba(0, 200, 100, 0.7);
+            border-radius: 12px;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .add-button:hover {
+            background-color: rgba(0, 200, 100, 0.9);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 50, 50, 0.9);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255, 50, 50, 1);
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        @media (max-width: 767px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 1rem;
+                border-radius: 0 0 8px 8px;
+                z-index: 100;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav li {
+                margin: 0.5rem 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.8rem;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .circle-box {
+                padding: 1.5rem;
+            }
+
+            .custom-button {
+                padding: 10px 20px;
+                min-width: 100px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <h1>Winmeの个人网站</h1>
-    <p>Welcome to my website!</p>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span>WinWeb</span>
+                </div>
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <nav>
+                    <ul id="navMenu">
+                        <li><a href="#" id="homeBtn">首页</a></li>
+                        <li><a href="#" id="aboutBtn">关于</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="circle-box">
+                <h2 style="color: white; margin-bottom: 1rem; text-align: center;">可自由增添按钮的圆方框</h2>
+
+                <div class="button-container" id="buttonContainer">
+                    <a href="https://example.com/page1.html" class="custom-button" target="_blank">示例按钮1</a>
+                    <a href="https://example.com/page2.html" class="custom-button" target="_blank">示例按钮2</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-content">
+            <h2 style="color: #333; margin-bottom: 1rem;">关于 WinWeb</h2>
+            <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">
+                这是一个响应式网页设计示例，具有以下特性：
+            </p>
+            <ul style="color: #555; line-height: 1.6; margin-bottom: 1.5rem; padding-left: 1.5rem;">
+                <li>响应式设计，适配各种设备</li>
+                <li>可自由添加按钮的圆方框</li>
+                <li>点击按钮跳转到不同网页</li>
+                <li>点击"关于"弹出模态框</li>
+                <li>点击圆形"X"按钮重置页面</li>
+            </ul>
+            <p style="color: #555; line-height: 1.6;">
+                这个页面展示了现代网页设计的基本原理和技术实现。
+            </p>
+            <button class="close-modal" id="closeModal">X</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            const homeBtn = document.getElementById('homeBtn');
+            const aboutBtn = document.getElementById('aboutBtn');
+            const aboutModal = document.getElementById('aboutModal');
+            const closeModal = document.getElementById('closeModal');
+            const addButton = document.getElementById('addButton');
+            const buttonContainer = document.getElementById('buttonContainer');
+
+            menuToggle.addEventListener('click', function (event) {
+                event.stopPropagation();
+                navMenu.classList.toggle('active');
+
+                if (navMenu.classList.contains('active')) {
+                    menuToggle.textContent = '✕';
+                } else {
+                    menuToggle.textContent = '☰';
+                }
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!event.target.closest('nav') &&
+                    !event.target.closest('#menuToggle') &&
+                    navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    menuToggle.textContent = '☰';
+                }
+            });
+
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth <= 767) {
+                        navMenu.classList.remove('active');
+                        menuToggle.textContent = '☰';
+                    }
+                });
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 767) {
+                    navMenu.style.display = 'flex';
+                    navMenu.classList.remove('active');
+                } else {
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.style.display = 'flex';
+                    } else {
+                        navMenu.style.display = 'none';
+                    }
+                }
+            });
+
+            if (window.innerWidth <= 767) {
+                navMenu.style.display = 'none';
+            } else {
+                navMenu.style.display = 'flex';
+            }
+
+            homeBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.reload();
+            });
+
+            // 关于按钮点击事件 - 显示模态框
+            aboutBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                aboutModal.style.display = 'flex';
+            });
+
+            // 关闭模态框按钮点击事件
+            closeModal.addEventListener('click', function () {
+                aboutModal.style.display = 'none';
+            });
+
+            // 点击模态框外部关闭模态框
+            aboutModal.addEventListener('click', function (e) {
+                if (e.target === aboutModal) {
+                    aboutModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
