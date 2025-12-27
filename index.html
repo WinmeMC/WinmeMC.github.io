@@ -99,6 +99,7 @@
             backdrop-filter: blur(5px);
             position: relative;
             min-height: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .button-container {
@@ -110,8 +111,8 @@
         }
 
         .custom-button {
-            background-color: rgba(100, 100, 255, 0.7);
-            border: none;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             color: white;
             padding: 12px 24px;
@@ -125,17 +126,17 @@
         }
 
         .custom-button:hover {
-            background-color: rgba(100, 100, 255, 0.9);
+            background-color: rgba(0, 0, 0, 0.4);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .add-button {
-            background-color: rgba(0, 200, 100, 0.7);
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             color: white;
             padding: 10px 20px;
-            border: none;
             cursor: pointer;
             font-size: 1rem;
             margin: 20px auto;
@@ -143,7 +144,7 @@
         }
 
         .add-button:hover {
-            background-color: rgba(0, 200, 100, 0.9);
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
         .modal-overlay {
@@ -161,25 +162,25 @@
         }
 
         .modal-content {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
             padding: 2rem;
             width: 90%;
             max-width: 500px;
             position: relative;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .close-modal {
             position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: -30px;
+            right: -30px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: rgba(255, 50, 50, 0.9);
-            border: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
@@ -190,8 +191,20 @@
         }
 
         .close-modal:hover {
-            background-color: rgba(255, 50, 50, 1);
-            transform: translateX(-50%) scale(1.1);
+            background-color: rgba(0, 0, 0, 0.6);
+            transform: scale(1.1);
+        }
+
+        .button-title {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .button-desc {
+            display: block;
+            font-size: 0.85rem;
+            opacity: 0.8;
         }
 
         @media (max-width: 767px) {
@@ -244,6 +257,11 @@
                 min-width: 100px;
                 font-size: 0.9rem;
             }
+
+            .close-modal {
+                top: -40px;
+                right: -40px;
+            }
         }
     </style>
 </head>
@@ -272,8 +290,14 @@
                 <h2 style="color: white; margin-bottom: 1rem; text-align: center;">可自由增添按钮的圆方框</h2>
 
                 <div class="button-container" id="buttonContainer">
-                    <a href="https://example.com/page1.html" class="custom-button" target="_blank">示例按钮1</a>
-                    <a href="https://example.com/page2.html" class="custom-button" target="_blank">示例按钮2</a>
+                    <a href="yj.html" class="custom-button" target="_blank">
+                        <span class="button-title">银角模拟器</span>
+                        <span class="button-desc">体验学生们的银角~</span>
+                    </a>
+                    <a href="78.html" class="custom-button" target="_blank">
+                        <span class="button-title">78长度查询器</span>
+                        <span class="button-desc">看看你的78有多长？</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -281,19 +305,15 @@
 
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-content">
-            <h2 style="color: #333; margin-bottom: 1rem;">关于 WinWeb</h2>
-            <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">
-                这是一个响应式网页设计示例，具有以下特性：
+            <h2 style="color: #f1f5f9; margin-bottom: 1rem;">关于 WinWeb</h2>
+            <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 1rem;">
+                猫猫等你很久了呢，欢迎来到WinWeb~☆
             </p>
-            <ul style="color: #555; line-height: 1.6; margin-bottom: 1.5rem; padding-left: 1.5rem;">
-                <li>响应式设计，适配各种设备</li>
-                <li>可自由添加按钮的圆方框</li>
-                <li>点击按钮跳转到不同网页</li>
-                <li>点击"关于"弹出模态框</li>
-                <li>点击圆形"X"按钮重置页面</li>
+            <ul style="color: #cbd5e1; line-height: 1.6; margin-bottom: 1.5rem; padding-left: 1.5rem;">
+                <li>作者-Winme:1175746324(QQ)</li>
             </ul>
-            <p style="color: #555; line-height: 1.6;">
-                这个页面展示了现代网页设计的基本原理和技术实现。
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                ©2025 Winme 个人网站
             </p>
             <button class="close-modal" id="closeModal">X</button>
         </div>
@@ -307,7 +327,6 @@
             const aboutBtn = document.getElementById('aboutBtn');
             const aboutModal = document.getElementById('aboutModal');
             const closeModal = document.getElementById('closeModal');
-            const addButton = document.getElementById('addButton');
             const buttonContainer = document.getElementById('buttonContainer');
 
             menuToggle.addEventListener('click', function (event) {
@@ -364,18 +383,15 @@
                 window.location.reload();
             });
 
-            // 关于按钮点击事件 - 显示模态框
             aboutBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 aboutModal.style.display = 'flex';
             });
 
-            // 关闭模态框按钮点击事件
             closeModal.addEventListener('click', function () {
                 aboutModal.style.display = 'none';
             });
 
-            // 点击模态框外部关闭模态框
             aboutModal.addEventListener('click', function (e) {
                 if (e.target === aboutModal) {
                     aboutModal.style.display = 'none';
