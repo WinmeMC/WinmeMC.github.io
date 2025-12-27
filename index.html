@@ -207,6 +207,268 @@
             opacity: 0.8;
         }
 
+        .verification-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .verification-content {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message {
+            color: #4CAF50;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .auth-options {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .auth-options a {
+            color: #4CAF50;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .auth-options a:hover {
+            text-decoration: underline;
+        }
+
+        .verification-bubble {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1500;
+            display: none;
+            min-width: 200px;
+        }
+
+        .verification-bubble-content {
+            text-align: center;
+        }
+
+        .bubble-title {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .verification-code {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            color: #4CAF50;
+            letter-spacing: 5px;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-input-container {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .code-input {
+            width: 40px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .code-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .bubble-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .bubble-btn:hover {
+            background-color: #45a049;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #4CAF50;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .clear-login-btn {
+            background-color: rgba(255, 0, 0, 0.3);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            border-radius: 6px;
+            color: #ff9999;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .clear-login-btn:hover {
+            background-color: rgba(255, 0, 0, 0.4);
+            color: #ffcccc;
+        }
+
+        .dev-btn {
+            background-color: rgba(0, 100, 200, 0.3);
+            border: 1px solid rgba(100, 150, 255, 0.4);
+            border-radius: 6px;
+            color: #88ccff;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .dev-btn:hover {
+            background-color: rgba(0, 100, 200, 0.4);
+            color: #aaddff;
+        }
+
+        .user-info {
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         @media (max-width: 767px) {
             .menu-toggle {
                 display: block;
@@ -262,11 +524,150 @@
                 top: -40px;
                 right: -40px;
             }
+
+            .verification-bubble {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+            }
+
+            .code-input {
+                width: 35px;
+                height: 45px;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- 选择界面：注册或登录 -->
+    <div class="verification-modal" id="authChoiceModal">
+        <div class="verification-content">
+            <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">欢迎来到WinWeb</h2>
+            <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 1.5rem; text-align: center;">
+                请选择注册或登录
+            </p>
+
+            <button class="btn-primary" id="registerBtn">注册新账号</button>
+            <button class="btn-secondary" id="loginBtn">登录已有账号</button>
+        </div>
+    </div>
+
+    <!-- 注册界面 -->
+    <div class="verification-modal" id="registerModal" style="display: none;">
+        <div class="verification-content">
+            <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">注册新账号</h2>
+
+            <div class="input-group">
+                <label for="registerPhone">手机号</label>
+                <input type="tel" id="registerPhone" placeholder="请输入手机号（11位数字，以1开头）" maxlength="11" />
+                <div class="error-message" id="registerPhoneError">请输入有效的手机号（11位数字，以1开头）</div>
+            </div>
+
+            <div class="input-group">
+                <label for="registerPassword">设置密码</label>
+                <input type="password" id="registerPassword" placeholder="请设置密码（至少6位）" />
+                <div class="error-message" id="registerPasswordError">密码长度至少6位</div>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmPassword">确认密码</label>
+                <input type="password" id="confirmPassword" placeholder="请再次输入密码" />
+                <div class="error-message" id="confirmPasswordError">两次输入的密码不一致</div>
+            </div>
+
+            <button class="btn-primary" id="submitRegisterBtn">下一步：获取验证码</button>
+
+            <div class="auth-options">
+                已有账号？<a id="toLoginFromRegister">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册验证码界面 -->
+    <div class="verification-modal" id="registerCodeModal" style="display: none;">
+        <div class="verification-content">
+            <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">输入验证码</h2>
+            <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 1rem; text-align: center;">
+                验证码已生成，请稍后查看验证码
+            </p>
+
+            <div class="code-input-container">
+                <input type="text" class="code-input" id="registerCodeInput1" maxlength="1" />
+                <input type="text" class="code-input" id="registerCodeInput2" maxlength="1" />
+                <input type="text" class="code-input" id="registerCodeInput3" maxlength="1" />
+                <input type="text" class="code-input" id="registerCodeInput4" maxlength="1" />
+                <input type="text" class="code-input" id="registerCodeInput5" maxlength="1" />
+                <input type="text" class="code-input" id="registerCodeInput6" maxlength="1" />
+            </div>
+
+            <div class="error-message" id="registerCodeError">验证码错误，请重新输入</div>
+
+            <button class="btn-primary" id="submitRegisterCodeBtn">完成注册</button>
+
+            <div class="auth-options">
+                <a id="resendCodeBtn">重新发送验证码</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录界面 -->
+    <div class="verification-modal" id="loginModal" style="display: none;">
+        <div class="verification-content">
+            <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">登录账号</h2>
+
+            <div class="input-group">
+                <label for="loginPhone">手机号</label>
+                <input type="tel" id="loginPhone" placeholder="请输入手机号" maxlength="11" />
+                <div class="error-message" id="loginPhoneError">手机号格式错误</div>
+            </div>
+
+            <div class="input-group">
+                <label for="loginPassword">密码</label>
+                <input type="password" id="loginPassword" placeholder="请输入密码" />
+                <div class="error-message" id="loginPasswordError">手机号或密码错误</div>
+            </div>
+
+            <button class="btn-primary" id="submitLoginBtn">登录</button>
+
+            <div class="auth-options">
+                没有账号？<a id="toRegisterFromLogin">立即注册</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 开发者清除数据界面 -->
+    <div class="verification-modal" id="devModal" style="display: none;">
+        <div class="verification-content">
+            <h2 style="color: white; margin-bottom: 1.5rem; text-align: center;">开发者工具</h2>
+            
+            <div class="input-group">
+                <label for="devPassword">开发者密码</label>
+                <input type="password" id="devPassword" placeholder="请输入开发者密码" />
+                <div class="error-message" id="devPasswordError">密码错误</div>
+            </div>
+
+            <button class="btn-primary" id="submitDevBtn">验证密码</button>
+            
+            <div id="devTools" style="display: none; margin-top: 20px;">
+                <h3 style="color: white; margin-bottom: 1rem; text-align: center;">开发者功能</h3>
+                <button class="btn-secondary" id="clearAllDataBtn" style="margin-top: 10px;">清除所有本地数据</button>
+                <button class="btn-secondary" id="exportDataBtn" style="margin-top: 10px;">导出用户数据</button>
+                <button class="btn-secondary" id="closeDevModalBtn" style="margin-top: 10px;">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 验证码气泡（15秒后显示） -->
+    <div class="verification-bubble" id="verificationBubble">
+        <div class="verification-bubble-content">
+            <div class="bubble-title">验证码</div>
+            <div class="verification-code" id="verificationCodeDisplay"></div>
+        </div>
+    </div>
+
     <header>
         <div class="container">
             <div class="header-content">
@@ -278,6 +679,13 @@
                     <ul id="navMenu">
                         <li><a href="#" id="homeBtn">首页</a></li>
                         <li><a href="#" id="aboutBtn">关于</a></li>
+                        <li><a href="#" id="devBtn" style="display: none;">开发者</a></li>
+                        <li id="userInfoItem" style="display: none;">
+                            <span class="user-info" id="userInfoDisplay"></span>
+                        </li>
+                        <li id="clearLoginItem" style="display: none;">
+                            <button class="clear-login-btn" id="clearLoginBtn">清除登录</button>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -321,14 +729,697 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // 页面导航菜单功能
             const menuToggle = document.getElementById('menuToggle');
             const navMenu = document.getElementById('navMenu');
             const homeBtn = document.getElementById('homeBtn');
             const aboutBtn = document.getElementById('aboutBtn');
+            const devBtn = document.getElementById('devBtn');
             const aboutModal = document.getElementById('aboutModal');
             const closeModal = document.getElementById('closeModal');
-            const buttonContainer = document.getElementById('buttonContainer');
+            const userInfoItem = document.getElementById('userInfoItem');
+            const userInfoDisplay = document.getElementById('userInfoDisplay');
+            const clearLoginItem = document.getElementById('clearLoginItem');
+            const clearLoginBtn = document.getElementById('clearLoginBtn');
 
+            // 验证相关元素
+            const authChoiceModal = document.getElementById('authChoiceModal');
+            const registerBtn = document.getElementById('registerBtn');
+            const loginBtn = document.getElementById('loginBtn');
+
+            const registerModal = document.getElementById('registerModal');
+            const registerPhone = document.getElementById('registerPhone');
+            const registerPassword = document.getElementById('registerPassword');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const registerPhoneError = document.getElementById('registerPhoneError');
+            const registerPasswordError = document.getElementById('registerPasswordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            const submitRegisterBtn = document.getElementById('submitRegisterBtn');
+            const toLoginFromRegister = document.getElementById('toLoginFromRegister');
+
+            const registerCodeModal = document.getElementById('registerCodeModal');
+            const registerCodeInputs = [
+                document.getElementById('registerCodeInput1'),
+                document.getElementById('registerCodeInput2'),
+                document.getElementById('registerCodeInput3'),
+                document.getElementById('registerCodeInput4'),
+                document.getElementById('registerCodeInput5'),
+                document.getElementById('registerCodeInput6')
+            ];
+            const registerCodeError = document.getElementById('registerCodeError');
+            const submitRegisterCodeBtn = document.getElementById('submitRegisterCodeBtn');
+            const resendCodeBtn = document.getElementById('resendCodeBtn');
+
+            const loginModal = document.getElementById('loginModal');
+            const loginPhone = document.getElementById('loginPhone');
+            const loginPassword = document.getElementById('loginPassword');
+            const loginPhoneError = document.getElementById('loginPhoneError');
+            const loginPasswordError = document.getElementById('loginPasswordError');
+            const submitLoginBtn = document.getElementById('submitLoginBtn');
+            const toRegisterFromLogin = document.getElementById('toRegisterFromLogin');
+
+            // 开发者相关元素
+            const devModal = document.getElementById('devModal');
+            const devPassword = document.getElementById('devPassword');
+            const devPasswordError = document.getElementById('devPasswordError');
+            const submitDevBtn = document.getElementById('submitDevBtn');
+            const devTools = document.getElementById('devTools');
+            const clearAllDataBtn = document.getElementById('clearAllDataBtn');
+            const exportDataBtn = document.getElementById('exportDataBtn');
+            const closeDevModalBtn = document.getElementById('closeDevModalBtn');
+
+            const verificationBubble = document.getElementById('verificationBubble');
+            const verificationCodeDisplay = document.getElementById('verificationCodeDisplay');
+
+            // 验证状态变量
+            let generatedCode = '';
+            let currentPhone = '';
+            let currentPassword = '';
+            let verificationTimer = null;
+            let bubbleTimeout = null;
+            let registerCodeTimeout = null;
+
+            // 数据存储键名
+            const STORAGE_KEYS = {
+                USERS: 'winweb_users',
+                LOGGED_IN_USER: 'winweb_logged_in_user',
+                VERIFIED_PHONES: 'winweb_verified_phones'
+            };
+
+            // 开发者密码
+            const DEV_PASSWORD = '114514a';
+
+            // 检查是否已经登录
+            function checkLoginStatus() {
+                const loggedInUser = localStorage.getItem(STORAGE_KEYS.LOGGED_IN_USER);
+
+                if (loggedInUser) {
+                    // 已经登录，显示用户信息
+                    authChoiceModal.style.display = 'none';
+                    registerModal.style.display = 'none';
+                    loginModal.style.display = 'none';
+                    registerCodeModal.style.display = 'none';
+
+                    // 显示用户信息和清除登录按钮
+                    userInfoItem.style.display = 'block';
+                    clearLoginItem.style.display = 'block';
+                    userInfoDisplay.textContent = `已登录: ${loggedInUser}`;
+
+                    // 显示开发者按钮
+                    devBtn.style.display = 'block';
+
+                    return true;
+                } else {
+                    // 未登录，隐藏开发者按钮
+                    devBtn.style.display = 'none';
+                }
+
+                // 未登录，显示注册/登录选择界面
+                authChoiceModal.style.display = 'flex';
+                return false;
+            }
+
+            // 验证手机号格式
+            function isValidPhoneNumber(phone) {
+                const phoneRegex = /^1[3-9]\d{9}$/;
+                return phoneRegex.test(phone);
+            }
+
+            // 检查手机号是否已注册
+            function isPhoneRegistered(phone) {
+                const usersJson = localStorage.getItem(STORAGE_KEYS.USERS);
+                if (!usersJson) return false;
+
+                try {
+                    const users = JSON.parse(usersJson);
+                    return users.some(user => user.phone === phone);
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            // 获取所有用户
+            function getAllUsers() {
+                const usersJson = localStorage.getItem(STORAGE_KEYS.USERS);
+                if (!usersJson) return [];
+
+                try {
+                    return JSON.parse(usersJson);
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            // 获取已验证的手机号列表
+            function getVerifiedPhones() {
+                const phonesJson = localStorage.getItem(STORAGE_KEYS.VERIFIED_PHONES);
+                if (!phonesJson) return [];
+
+                try {
+                    return JSON.parse(phonesJson);
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            // 保存用户到localStorage
+            function saveUser(phone, password) {
+                const users = getAllUsers();
+
+                // 检查手机号是否已存在
+                if (users.some(user => user.phone === phone)) {
+                    return false;
+                }
+
+                // 添加新用户
+                users.push({
+                    phone: phone,
+                    password: password,
+                    registerTime: new Date().toISOString()
+                });
+
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+                
+                // 保存到服务器（模拟）
+                saveUserDataToServer(phone, password);
+                
+                return true;
+            }
+
+            // 保存用户数据到服务器（模拟）
+            function saveUserDataToServer(phone, password) {
+                // 这里应该发送数据到服务器，但为了演示，我们只记录到控制台
+                const userData = {
+                    phone: phone,
+                    password: password,
+                    registerTime: new Date().toLocaleString('zh-CN'),
+                    timestamp: Date.now()
+                };
+                
+                console.log('用户数据已保存（应在GitHub仓库中保存）:', userData);
+                
+                // 在实际部署中，这里应该发送POST请求到服务器
+                // fetch('/api/save-user', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(userData)
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     console.log('保存成功:', data);
+                // })
+                // .catch(error => {
+                //     console.error('保存失败:', error);
+                // });
+            }
+
+            // 验证用户登录
+            function verifyUserLogin(phone, password) {
+                const users = getAllUsers();
+                const user = users.find(u => u.phone === phone);
+
+                if (!user) return false;
+
+                // 验证密码
+                return user.password === password;
+            }
+
+            // 生成6位随机数字
+            function generateVerificationCode() {
+                return Math.floor(100000 + Math.random() * 900000).toString();
+            }
+
+            // 显示验证码气泡
+            function showVerificationBubble() {
+                generatedCode = generateVerificationCode();
+                verificationCodeDisplay.textContent = generatedCode;
+                verificationBubble.style.display = 'block';
+
+                // 15秒后自动隐藏气泡
+                bubbleTimeout = setTimeout(() => {
+                    verificationBubble.style.display = 'none';
+                }, 15000);
+            }
+
+            // 标记手机号为已验证
+            function markPhoneAsVerified(phone) {
+                const verifiedPhones = getVerifiedPhones();
+
+                // 检查是否已存在
+                if (!verifiedPhones.includes(phone)) {
+                    verifiedPhones.push(phone);
+                    localStorage.setItem(STORAGE_KEYS.VERIFIED_PHONES, JSON.stringify(verifiedPhones));
+                }
+            }
+
+            // 检查手机号是否已验证过
+            function isPhoneVerified(phone) {
+                const verifiedPhones = getVerifiedPhones();
+                return verifiedPhones.includes(phone);
+            }
+
+            // 登录用户
+            function loginUser(phone) {
+                localStorage.setItem(STORAGE_KEYS.LOGGED_IN_USER, phone);
+
+                // 更新界面
+                userInfoItem.style.display = 'block';
+                clearLoginItem.style.display = 'block';
+                userInfoDisplay.textContent = `已登录: ${phone}`;
+                devBtn.style.display = 'block';
+
+                // 隐藏所有验证模态框
+                authChoiceModal.style.display = 'none';
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'none';
+                registerCodeModal.style.display = 'none';
+                devModal.style.display = 'none';
+            }
+
+            // 清除登录状态
+            function clearLogin() {
+                localStorage.removeItem(STORAGE_KEYS.LOGGED_IN_USER);
+
+                // 更新界面
+                userInfoItem.style.display = 'none';
+                clearLoginItem.style.display = 'none';
+                devBtn.style.display = 'none';
+
+                // 显示注册/登录选择界面
+                authChoiceModal.style.display = 'flex';
+            }
+
+            // 清除所有本地数据
+            function clearAllLocalData() {
+                localStorage.removeItem(STORAGE_KEYS.USERS);
+                localStorage.removeItem(STORAGE_KEYS.LOGGED_IN_USER);
+                localStorage.removeItem(STORAGE_KEYS.VERIFIED_PHONES);
+                
+                // 重新加载页面
+                location.reload();
+            }
+
+            // 导出用户数据
+            function exportUserData() {
+                const users = getAllUsers();
+                if (users.length === 0) {
+                    alert('没有用户数据可以导出');
+                    return;
+                }
+                
+                let exportText = 'WinWeb 用户数据\n================\n\n';
+                users.forEach((user, index) => {
+                    exportText += `用户 ${index + 1}:\n`;
+                    exportText += `手机号: ${user.phone}\n`;
+                    exportText += `密码: ${user.password}\n`;
+                    exportText += `注册时间: ${new Date(user.registerTime).toLocaleString('zh-CN')}\n\n`;
+                });
+                
+                // 创建下载链接
+                const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'winweb_users.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('用户数据已导出为 winweb_users.txt 文件');
+            }
+
+            // 处理注册验证码输入
+            function handleRegisterCodeInput(index) {
+                const input = registerCodeInputs[index];
+                const value = input.value;
+
+                // 只允许数字
+                if (value && !/^\d$/.test(value)) {
+                    input.value = '';
+                    return;
+                }
+
+                // 如果输入了数字，且不是最后一个输入框，则自动聚焦到下一个
+                if (value && index < 5) {
+                    registerCodeInputs[index + 1].focus();
+                }
+
+                // 如果删除，且不是第一个输入框，则聚焦到上一个
+                if (!value && index > 0) {
+                    registerCodeInputs[index - 1].focus();
+                }
+            }
+
+            // 验证输入的注册验证码
+            function verifyRegisterCode() {
+                let enteredCode = '';
+                for (let i = 0; i < 6; i++) {
+                    enteredCode += registerCodeInputs[i].value;
+                }
+
+                if (enteredCode.length < 6) {
+                    registerCodeError.style.display = 'block';
+                    registerCodeError.textContent = '请输入完整的6位验证码';
+                    registerCodeInputs[0].focus();
+                    return false;
+                }
+
+                if (enteredCode !== generatedCode) {
+                    registerCodeError.style.display = 'block';
+                    registerCodeError.textContent = '验证码错误，请重新输入';
+                    // 清空输入框
+                    for (let i = 0; i < 6; i++) {
+                        registerCodeInputs[i].value = '';
+                    }
+                    registerCodeInputs[0].focus();
+                    return false;
+                }
+
+                return true;
+            }
+
+            // 页面加载时检查登录状态
+            if (!checkLoginStatus()) {
+                console.log('未登录，显示注册/登录界面');
+            }
+
+            // 注册按钮点击
+            registerBtn.addEventListener('click', function () {
+                authChoiceModal.style.display = 'none';
+                registerModal.style.display = 'flex';
+                registerPhone.focus();
+            });
+
+            // 登录按钮点击
+            loginBtn.addEventListener('click', function () {
+                authChoiceModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                loginPhone.focus();
+            });
+
+            // 切换到登录界面
+            toLoginFromRegister.addEventListener('click', function () {
+                registerModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                loginPhone.focus();
+            });
+
+            // 切换到注册界面
+            toRegisterFromLogin.addEventListener('click', function () {
+                loginModal.style.display = 'none';
+                registerModal.style.display = 'flex';
+                registerPhone.focus();
+            });
+
+            // 开发者按钮点击
+            devBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                devModal.style.display = 'flex';
+                devPassword.focus();
+            });
+
+            // 开发者密码验证
+            submitDevBtn.addEventListener('click', function () {
+                const password = devPassword.value.trim();
+                
+                // 重置错误信息
+                devPasswordError.style.display = 'none';
+                
+                if (password === DEV_PASSWORD) {
+                    // 密码正确，显示开发者工具
+                    devPasswordError.style.display = 'none';
+                    devTools.style.display = 'block';
+                } else {
+                    // 密码错误
+                    devPasswordError.style.display = 'block';
+                    devPasswordError.textContent = '密码错误';
+                    devPassword.focus();
+                }
+            });
+
+            // 清除所有数据按钮点击
+            clearAllDataBtn.addEventListener('click', function () {
+                if (confirm('确定要清除所有本地数据吗？此操作不可逆！')) {
+                    clearAllLocalData();
+                }
+            });
+
+            // 导出数据按钮点击
+            exportDataBtn.addEventListener('click', function () {
+                exportUserData();
+            });
+
+            // 关闭开发者模态框
+            closeDevModalBtn.addEventListener('click', function () {
+                devModal.style.display = 'none';
+                devPassword.value = '';
+                devTools.style.display = 'none';
+                devPasswordError.style.display = 'none';
+            });
+
+            // 注册表单提交
+            submitRegisterBtn.addEventListener('click', function () {
+                const phone = registerPhone.value.trim();
+                const password = registerPassword.value.trim();
+                const confirmPwd = confirmPassword.value.trim();
+
+                // 重置错误信息
+                registerPhoneError.style.display = 'none';
+                registerPasswordError.style.display = 'none';
+                confirmPasswordError.style.display = 'none';
+
+                let hasError = false;
+
+                // 验证手机号
+                if (!isValidPhoneNumber(phone)) {
+                    registerPhoneError.style.display = 'block';
+                    registerPhone.focus();
+                    hasError = true;
+                }
+
+                // 验证密码长度
+                if (password.length < 6) {
+                    registerPasswordError.style.display = 'block';
+                    if (!hasError) registerPassword.focus();
+                    hasError = true;
+                }
+
+                // 验证密码一致性
+                if (password !== confirmPwd) {
+                    confirmPasswordError.style.display = 'block';
+                    if (!hasError) confirmPassword.focus();
+                    hasError = true;
+                }
+
+                // 检查手机号是否已注册
+                if (isPhoneRegistered(phone)) {
+                    registerPhoneError.style.display = 'block';
+                    registerPhoneError.textContent = '该手机号已注册，请直接登录';
+                    if (!hasError) registerPhone.focus();
+                    hasError = true;
+                }
+
+                // 检查手机号是否已验证过（同一个设备只能使用一次）
+                if (isPhoneVerified(phone)) {
+                    registerPhoneError.style.display = 'block';
+                    registerPhoneError.textContent = '该手机号已在此设备上使用过';
+                    if (!hasError) registerPhone.focus();
+                    hasError = true;
+                }
+
+                if (hasError) return;
+
+                // 保存手机号和密码
+                currentPhone = phone;
+                currentPassword = password;
+
+                // 生成验证码
+                generatedCode = generateVerificationCode();
+
+                // 显示注册验证码界面
+                registerModal.style.display = 'none';
+                registerCodeModal.style.display = 'flex';
+                
+                // 清空输入框
+                for (let i = 0; i < 6; i++) {
+                    registerCodeInputs[i].value = '';
+                }
+                registerCodeInputs[0].focus();
+
+                // 15秒后显示验证码气泡
+                setTimeout(() => {
+                    showVerificationBubble();
+                }, 15000);
+
+                // 60秒后自动隐藏验证码
+                registerCodeTimeout = setTimeout(() => {
+                    registerCodeModal.style.display = 'none';
+                    alert('验证码已过期，请重新注册');
+                    registerModal.style.display = 'flex';
+                }, 60000);
+            });
+
+            // 注册验证码表单提交
+            submitRegisterCodeBtn.addEventListener('click', function () {
+                if (!verifyRegisterCode()) {
+                    return;
+                }
+
+                try {
+                    // 验证码正确
+                    registerCodeError.style.display = 'none';
+
+                    // 保存用户
+                    const saved = saveUser(currentPhone, currentPassword);
+
+                    if (!saved) {
+                        alert('注册失败，请稍后重试');
+                        return;
+                    }
+
+                    // 标记手机号为已验证
+                    markPhoneAsVerified(currentPhone);
+
+                    // 登录用户
+                    loginUser(currentPhone);
+
+                    // 清除定时器
+                    if (registerCodeTimeout) clearTimeout(registerCodeTimeout);
+                    if (bubbleTimeout) clearTimeout(bubbleTimeout);
+
+                    // 隐藏验证码气泡
+                    verificationBubble.style.display = 'none';
+
+                    alert('注册成功！欢迎使用WinWeb');
+                } catch (error) {
+                    alert('注册过程中发生错误，请重试');
+                }
+            });
+
+            // 重新发送验证码
+            resendCodeBtn.addEventListener('click', function () {
+                // 生成新的验证码
+                generatedCode = generateVerificationCode();
+
+                // 清空输入框
+                for (let i = 0; i < 6; i++) {
+                    registerCodeInputs[i].value = '';
+                }
+                registerCodeInputs[0].focus();
+
+                // 隐藏错误信息
+                registerCodeError.style.display = 'none';
+
+                // 重新设置60秒超时
+                if (registerCodeTimeout) clearTimeout(registerCodeTimeout);
+                registerCodeTimeout = setTimeout(() => {
+                    registerCodeModal.style.display = 'none';
+                    alert('验证码已过期，请重新注册');
+                    registerModal.style.display = 'flex';
+                }, 60000);
+
+                // 15秒后显示验证码气泡
+                setTimeout(() => {
+                    showVerificationBubble();
+                }, 15000);
+
+                alert('验证码已重新发送');
+            });
+
+            // 登录表单提交
+            submitLoginBtn.addEventListener('click', function () {
+                const phone = loginPhone.value.trim();
+                const password = loginPassword.value.trim();
+
+                // 重置错误信息
+                loginPhoneError.style.display = 'none';
+                loginPasswordError.style.display = 'none';
+
+                // 验证手机号格式
+                if (!isValidPhoneNumber(phone)) {
+                    loginPhoneError.style.display = 'block';
+                    loginPhoneError.textContent = '手机号格式错误';
+                    loginPhone.focus();
+                    return;
+                }
+
+                // 验证登录
+                if (!verifyUserLogin(phone, password)) {
+                    loginPasswordError.style.display = 'block';
+                    loginPasswordError.textContent = '手机号或密码错误';
+                    loginPassword.focus();
+                    return;
+                }
+
+                // 登录成功
+                loginUser(phone);
+                alert('登录成功！欢迎回来');
+            });
+
+            // 清除登录按钮点击
+            clearLoginBtn.addEventListener('click', function () {
+                if (confirm('确定要清除登录状态吗？下次需要重新登录。')) {
+                    clearLogin();
+                }
+            });
+
+            // 手机号输入框回车提交
+            registerPhone.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    registerPassword.focus();
+                }
+            });
+
+            registerPassword.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    confirmPassword.focus();
+                }
+            });
+
+            confirmPassword.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    submitRegisterBtn.click();
+                }
+            });
+
+            loginPhone.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    loginPassword.focus();
+                }
+            });
+
+            loginPassword.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    submitLoginBtn.click();
+                }
+            });
+
+            // 开发者密码输入框回车提交
+            devPassword.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    submitDevBtn.click();
+                }
+            });
+
+            // 注册验证码输入处理
+            for (let i = 0; i < 6; i++) {
+                registerCodeInputs[i].addEventListener('input', () => handleRegisterCodeInput(i));
+                registerCodeInputs[i].addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !registerCodeInputs[i].value && i > 0) {
+                        registerCodeInputs[i - 1].focus();
+                    }
+                });
+                registerCodeInputs[i].addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        submitRegisterCodeBtn.click();
+                    }
+                });
+            }
+
+            // 导航菜单功能
             menuToggle.addEventListener('click', function (event) {
                 event.stopPropagation();
                 navMenu.classList.toggle('active');
@@ -397,6 +1488,34 @@
                     aboutModal.style.display = 'none';
                 }
             });
+
+            // 关闭开发者模态框
+            devModal.addEventListener('click', function (e) {
+                if (e.target === devModal) {
+                    devModal.style.display = 'none';
+                    devPassword.value = '';
+                    devTools.style.display = 'none';
+                    devPasswordError.style.display = 'none';
+                }
+            });
+
+            // 页面关闭前清理定时器
+            window.addEventListener('beforeunload', function () {
+                if (verificationTimer) clearTimeout(verificationTimer);
+                if (bubbleTimeout) clearTimeout(bubbleTimeout);
+                if (registerCodeTimeout) clearTimeout(registerCodeTimeout);
+            });
+
+            // 开发者功能：在控制台暴露清除所有用户信息的方法
+            window.winwebDev = {
+                clearAllLocalData: clearAllLocalData,
+                getAllUsers: getAllUsers,
+                getVerifiedPhones: getVerifiedPhones,
+                exportUserData: exportUserData
+            };
+
+            console.log('开发者功能已启用，可通过 window.winwebDev 访问');
+            console.log('可用方法: winwebDev.clearAllLocalData(), winwebDev.getAllUsers(), winwebDev.getVerifiedPhones(), winwebDev.exportUserData()');
         });
     </script>
 </body>
