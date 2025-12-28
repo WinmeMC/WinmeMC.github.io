@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -31,7 +30,7 @@
 
         .card {
             width: 100%;
-            max-width: 380px;
+            max-width: 420px;
             background: #fff;
             border-radius: 20px;
             padding: 24px;
@@ -63,7 +62,7 @@
         }
 
         .input-section {
-            margin-bottom: 32px
+            margin-bottom: 24px
         }
 
         .input-label {
@@ -96,9 +95,15 @@
             color: #9ca3af
         }
 
-        .analyze-btn {
-            width: 100%;
+        .btn-group {
+            display: flex;
+            gap: 12px;
             margin-top: 20px;
+        }
+
+        .analyze-btn,
+        .clear-btn {
+            flex: 1;
             background: #4A89DC;
             color: #fff;
             font-weight: 500;
@@ -113,18 +118,28 @@
             font-size: 1.05rem
         }
 
-        .analyze-btn:hover {
-            box-shadow: 0 10px 15px -3px rgba(74, 137, 220, 0.2);
+        .clear-btn {
+            background: #9ca3af;
+        }
+
+        .analyze-btn:hover,
+        .clear-btn:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
             transform: translateY(-2px)
         }
 
-        .analyze-btn:active {
+        .analyze-btn:active,
+        .clear-btn:active {
             transform: translateY(0)
         }
 
         .btn-loading {
             background: #d1d5db;
             cursor: not-allowed
+        }
+
+        .clear-btn:hover {
+            background: #6b7280;
         }
 
         .spinner {
@@ -233,7 +248,11 @@
             text-shadow: 0 0 10px rgba(136, 136, 136, 0.5);
         }
 
-        /* 新增底部链接样式 */
+        .string-result {
+            color: #10b981;
+            font-size: clamp(2rem, 6vw, 3rem);
+        }
+
         .footer-link {
             text-align: center;
             margin-top: 20px;
@@ -254,6 +273,14 @@
             color: #3a7bd5;
             text-decoration: underline
         }
+
+        .storage-info {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 
@@ -263,10 +290,14 @@
             <h1 class="main-title">78长度查询器</h1>
             <p class="sub-title">看看你的78长度</p>
         </div>
+
         <div class="input-section">
             <label for="username" class="input-label">用户名：</label>
             <input type="text" id="username" class="username-input" placeholder="请输入用户名">
-            <button id="analyzeBtn" class="analyze-btn"><span>开始查询</span></button>
+            <div class="btn-group">
+                <button id="analyzeBtn" class="analyze-btn"><span>开始查询</span></button>
+                <button id="clearBtn" class="clear-btn"><span>清除记录</span></button>
+            </div>
         </div>
         <div id="resultSection" class="result-section">
             <h2 class="result-title">分析结果</h2>
@@ -289,66 +320,182 @@
             </div>
         </div>
 
-        <!-- 新增底部链接 -->
         <div class="footer-link">
             原链接:<a href="https://kk.140.icu/192/" target="_blank">kk.140.icu</a>，我不是原作者，只是稍微改了下，仅供娱乐侵删
         </div>
     </div>
     <script>
-        // 模拟点击音效（由于没有实际文件，这里使用空函数）
-        const clickSound = {
-            play: () => Promise.resolve()
+        const SPECIAL_USERS_CONFIG = {
+            "此生终爱日奈": { value: -1, unit: "km", type: "negative" },
+            "王圣博": { value: 114514, unit: "km", type: "special" },
+            "爱抢银行的白子": { value: "秘密", unit: "", type: "fixed" },
         };
 
-        const [analyzeBtn, usernameInput, resultSection, resultUsername, lengthResult, progressBar, evaluation] =
-            ['analyzeBtn', 'username', 'resultSection', 'resultUsername', 'lengthResult', 'progressBar', 'evaluation'].map(id => document.getElementById(id));
-
-        // 特殊用户名列表
-        const specialUsernames = [
-            "Twi", "twi", "twistar", "Twistar", "TwiStar",
-            "暮星", "暮星Twi", "暮星TwiStar", "暮星twistar",
-            "twistar_", "airer_", "airer"
+        const RANGE_CONFIG = [
+            { max: 20, min: 0, maxPercent: 20 },
+            { max: 35, min: 20, maxPercent: 15 },
+            { max: 45, min: 35, maxPercent: 10 },
+            { max: 55, min: 45, maxPercent: 10 },
+            { max: 75, min: 55, maxPercent: 20 },
+            { max: 100, min: 75, maxPercent: 25 }
         ];
 
-        // 检查是否为特殊用户名
+        const EVALUATION_CONFIG = {
+            s: ['略短：别灰心，还有成长空间', '略短：不必焦虑，尺寸并非一切', '略短：保持自信，内在更重要'],
+            sh: ['较短：还算正常范围', '较短：多数人的水平，不必担心', '较短：够用就好，无需过度比较'],
+            ml: ['中等偏下：仍需努力', '中等偏下：中间水平，还有提升空间', '中等偏下：日常使用足够，不必苛求'],
+            m: ['中规中矩：还行吧,不算丢人', '中规中矩：标准水平，无需自卑', '中规中矩：大多数人羡慕的程度'],
+            g: ['良好：超过平均水平', '良好：已经很出色了，值得肯定', '良好：超越多数人，继续保持'],
+            e: ['优秀：值得骄傲的长度', '优秀：相当出色，令人羡慕', '优秀：顶级水平，无需低调'],
+            special: ['逆天：这是传说中的宇宙级长度！', '无敌：此长度已突破天际！', '神话：这是神话传说中的长度！'],
+            negative: ['拉完了，你没有78', '拉完了，你没有78', '拉完了，你没有78']
+        };
+
+        const STORAGE_KEY = "usernameLengthStorage";
+
+        const clickSound = { play: () => Promise.resolve() };
+
+        const elements = [
+            'analyzeBtn', 'username', 'resultSection', 'resultUsername',
+            'lengthResult', 'progressBar', 'evaluation', 'clearBtn', 'clearAllBtn',
+            'specialUserCount', 'storedCount'
+        ].map(id => document.getElementById(id));
+
+        const [analyzeBtn, usernameInput, resultSection, resultUsername,
+               lengthResult, progressBar, evaluation, clearBtn, clearAllBtn] = elements;
+
         function isSpecialUsername(username) {
-            return username === "辣椒滑稽果";
+            return SPECIAL_USERS_CONFIG.hasOwnProperty(username);
         }
 
-        // 检查是否为负值用户名
-        function isNegativeUsername(username) {
-            return specialUsernames.includes(username);
+        function getUserConfig(username) {
+            return SPECIAL_USERS_CONFIG[username] || null;
         }
 
-        // 获取随机长度（修改为支持特殊用户名）
-        function getRandomLength(username) {
-            // 如果是负值用户名，返回-1
-            if (isNegativeUsername(username)) {
-                return -1;
+        function stringHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
             }
+            return Math.abs(hash);
+        }
 
-            // 如果是特殊用户名，返回特殊值
-            if (isSpecialUsername(username)) {
-                return 10000; // 10000km
+        function getOrCreateLength(username) {
+            const storage = getStorage();
+            
+            if (storage[username]) {
+                return storage[username];
             }
+            
+            const userConfig = getUserConfig(username);
+            if (userConfig) {
+                const result = {
+                    length: userConfig.value,
+                    unit: userConfig.unit,
+                    type: userConfig.type
+                };
+                storage[username] = result;
+                saveStorage(storage);
+                return result;
+            }
+            
+            const hash = stringHash(username);
+            const r = (hash % 10000) / 100;
+            
+            let length = 0;
+            if (r < 20) {
+                length = Math.floor((hash % 1000) / 1000 * 6);
+            } else if (r < 35) {
+                length = Math.floor((hash % 1000) / 1000 * 5) + 6;
+            } else if (r < 45) {
+                length = Math.floor((hash % 1000) / 1000 * 3) + 11;
+            } else if (r < 55) {
+                length = Math.floor((hash % 1000) / 1000 * 3) + 14;
+            } else if (r < 75) {
+                length = Math.floor((hash % 1000) / 1000 * 4) + 17;
+            } else {
+                const isLarge = (hash % 2) === 0;
+                if (isLarge) {
+                    length = Math.floor((hash % 1000) / 1000 * 5) + 21;
+                } else {
+                    length = Math.floor((hash % 1000) / 1000 * 901) + 100;
+                }
+            }
+            
+            const result = { length: length, unit: "cm", type: "normal" };
+            storage[username] = result;
+            saveStorage(storage);
+            return result;
+        }
 
-            const r = Math.random() * 100;
-            if (r < 20) return Math.floor(Math.random() * 6);
-            if (r < 35) return Math.floor(Math.random() * 5) + 6;
-            if (r < 45) return Math.floor(Math.random() * 3) + 11;
-            if (r < 55) return Math.floor(Math.random() * 3) + 14;
-            if (r < 75) return Math.floor(Math.random() * 4) + 17;
-            return Math.random() > 0.5 ? Math.floor(Math.random() * 5) + 21 : Math.floor(Math.random() * 901) + 100;
+        function getStorage() {
+            try {
+                const storage = localStorage.getItem(STORAGE_KEY);
+                return storage ? JSON.parse(storage) : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveStorage(storage) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
+            } catch (e) {}
+        }
+
+        function clearUserRecord(username) {
+            const storage = getStorage();
+            if (storage[username]) {
+                delete storage[username];
+                saveStorage(storage);
+                return true;
+            }
+            return false;
+        }
+
+        function clearAllRecords() {
+            if (confirm("确定要清除所有用户的记录吗？此操作不可撤销。")) {
+                localStorage.removeItem(STORAGE_KEY);
+                alert("已清除所有记录！");
+            }
+        }
+
+        function getEvaluation(length, type) {
+            if (type === "negative") {
+                return EVALUATION_CONFIG.negative[0];
+            } else if (type === "special") {
+                return EVALUATION_CONFIG.special[Math.floor(stringHash("special") % 3)];
+            } else if (typeof length === 'string') {
+                return "这是一个秘密！";
+            } else if (length <= 5) {
+                return EVALUATION_CONFIG.s[Math.floor(stringHash("s" + length) % 3)];
+            } else if (length <= 10) {
+                return EVALUATION_CONFIG.sh[Math.floor(stringHash("sh" + length) % 3)];
+            } else if (length <= 13) {
+                return EVALUATION_CONFIG.ml[Math.floor(stringHash("ml" + length) % 3)];
+            } else if (length <= 16) {
+                return EVALUATION_CONFIG.m[Math.floor(stringHash("m" + length) % 3)];
+            } else if (length <= 20) {
+                return EVALUATION_CONFIG.g[Math.floor(stringHash("g" + length) % 3)];
+            } else {
+                return EVALUATION_CONFIG.e[Math.floor(stringHash("e" + length) % 3)];
+            }
+        }
+
+        function isString(value) {
+            return typeof value === 'string';
         }
 
         analyzeBtn.addEventListener('click', () => {
-            clickSound.play().catch(e => { });
+            clickSound.play().catch(e => {});
             const username = usernameInput.value.trim();
             if (!username) return alert('信息不能为空');
 
-            // 分析中禁用输入框，阻止修改用户名
             usernameInput.disabled = true;
             analyzeBtn.disabled = true;
+            clearBtn.disabled = true;
             analyzeBtn.classList.add('btn-loading');
             analyzeBtn.innerHTML = '<div class="spinner"></div><span>分析中...</span>';
 
@@ -356,98 +503,78 @@
                 resultSection.classList.add('show');
                 resultUsername.textContent = username;
 
-                const isSpecial = isSpecialUsername(username);
-                const isNegative = isNegativeUsername(username);
-                const len = getRandomLength(username);
+                const { length, unit, type } = getOrCreateLength(username);
+                const isValueString = isString(length);
 
-                // 根据用户名类型设置不同的单位、显示值和进度条
-                let unit = 'cm';
-                let displayValue = len;
-                let progressWidth = len >= 100 ? 100 : len / 25 * 100;
-
-                // 负值用户名的特殊处理
-                if (isNegative) {
-                    unit = 'cm';
-                    displayValue = -1;
-                    progressWidth = 0; // 进度条为0
-                    lengthResult.classList.add('negative-result'); // 添加负值样式
-                    lengthResult.classList.remove('special-result'); // 移除特殊样式
-                }
-                // 特殊用户名的处理
-                else if (isSpecial) {
-                    unit = 'km';
-                    displayValue = 10000;
-                    progressWidth = 100; // 进度条满格
-                    lengthResult.classList.add('special-result'); // 添加特殊样式
-                    lengthResult.classList.remove('negative-result'); // 移除负值样式
-                }
-                // 普通用户名的处理
-                else {
-                    lengthResult.classList.remove('special-result', 'negative-result'); // 移除所有特殊样式
+                let progressWidth = 0;
+                if (!isValueString) {
+                    if (type === "negative") {
+                        progressWidth = 0;
+                    } else if (type === "special" || length >= 100) {
+                        progressWidth = 100;
+                    } else if (length <= 25) {
+                        progressWidth = (length / 25) * 100;
+                    } else {
+                        progressWidth = 100;
+                    }
                 }
 
-                // 评价内容
-                const evals = {
-                    s: ['略短：别灰心，还有成长空间', '略短：不必焦虑，尺寸并非一切', '略短：保持自信，内在更重要'],
-                    sh: ['较短：还算正常范围', '较短：多数人的水平，不必担心', '较短：够用就好，无需过度比较'],
-                    ml: ['中等偏下：仍需努力', '中等偏下：中间水平，还有提升空间', '中等偏下：日常使用足够，不必苛求'],
-                    m: ['中规中矩：还行吧,不算丢人', '中规中矩：标准水平，无需自卑', '中规中矩：大多数人羡慕的程度'],
-                    g: ['良好：超过平均水平', '良好：已经很出色了，值得肯定', '良好：超越多数人，继续保持'],
-                    e: ['优秀：值得骄傲的长度', '优秀：相当出色，令人羡慕', '优秀：顶级水平，无需低调'],
-                    special: ['逆天：这是传说中的宇宙级长度！', '无敌：此长度已突破天际！', '神话：这是神话传说中的长度！'],
-                    negative: ['拉完了，你没有78', '拉完了，你没有78', '拉完了，你没有78'] // 负值用户的固定评价
-                };
-
-                let evalText;
-                if (isNegative) {
-                    evalText = evals.negative[0]; // 固定评价
-                } else if (isSpecial) {
-                    evalText = evals.special[Math.floor(Math.random() * 3)];
-                } else if (len <= 5) {
-                    evalText = evals.s[Math.floor(Math.random() * 3)];
-                } else if (len <= 10) {
-                    evalText = evals.sh[Math.floor(Math.random() * 3)];
-                } else if (len <= 13) {
-                    evalText = evals.ml[Math.floor(Math.random() * 3)];
-                } else if (len <= 16) {
-                    evalText = evals.m[Math.floor(Math.random() * 3)];
-                } else if (len <= 20) {
-                    evalText = evals.g[Math.floor(Math.random() * 3)];
-                } else {
-                    evalText = evals.e[Math.floor(Math.random() * 3)];
+                lengthResult.classList.remove('special-result', 'negative-result', 'string-result');
+                if (type === "special") {
+                    lengthResult.classList.add('special-result');
+                } else if (type === "negative") {
+                    lengthResult.classList.add('negative-result');
+                } else if (isValueString) {
+                    lengthResult.classList.add('string-result');
                 }
 
                 progressBar.style.width = `${progressWidth}%`;
-                evaluation.textContent = evalText;
+                evaluation.textContent = getEvaluation(length, type);
 
-                // 修改动画函数以支持单位
-                animateValue(lengthResult, 0, displayValue, 1500, unit);
+                if (isValueString) {
+                    lengthResult.textContent = `${length}${unit}`;
+                } else {
+                    animateValue(lengthResult, 0, length, 1500, unit);
+                }
 
-                // 分析完成启用输入框，允许重新修改
                 usernameInput.disabled = false;
                 analyzeBtn.disabled = false;
+                clearBtn.disabled = false;
                 analyzeBtn.classList.remove('btn-loading');
                 analyzeBtn.innerHTML = '<span>重新检测</span>';
-            }, 2000);
+            }, 1000);
         });
+
+        clearBtn.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            if (!username) {
+                alert('请输入要清除记录的用户名');
+                return;
+            }
+            
+            if (clearUserRecord(username)) {
+                alert(`已清除用户 "${username}" 的记录`);
+                resultSection.classList.remove('show');
+            } else {
+                alert(`用户 "${username}" 没有记录`);
+            }
+        });
+
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', clearAllRecords);
+        }
 
         usernameInput.addEventListener('keypress', e => e.key === 'Enter' && analyzeBtn.click());
 
-        // 修改动画函数以支持单位
         function animateValue(el, start, end, duration, unit) {
             let startTime = null;
             const step = (timestamp) => {
                 if (!startTime) startTime = timestamp;
                 const progress = Math.min((timestamp - startTime) / duration, 1);
-
-                // 处理负值动画
                 let currentValue = Math.floor(progress * (end - start) + start);
-
-                // 如果目标值是负数，确保动画正确递减
                 if (end < start) {
                     currentValue = Math.ceil(start - (start - end) * progress);
                 }
-
                 el.textContent = `${currentValue}${unit}`;
                 if (progress < 1) {
                     requestAnimationFrame(step);
@@ -460,5 +587,4 @@
         document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
     </script>
 </body>
-
 </html>
