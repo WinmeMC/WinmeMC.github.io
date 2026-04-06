@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式设计完全指南</title>
+    <style>
+        /* 全局重置和基础样式 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --accent-color: #8b5cf6;
+            --text-color: #1f2937;
+            --light-bg: #f8fafc;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #ffffff;
+        }
+        
+        .container {
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        /* 头部导航 */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.9;
+            text-decoration: underline;
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            padding: 3rem 0;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* 响应式演示区域 */
+        .demo-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .demo-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .demo-icon {
+            font-size: 1.5rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        .demo-item {
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .demo-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .code-block pre {
+            margin: 0;
+        }
+        
+        .code-block .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .code-comment {
+            color: #94a3b8;
+        }
+        
+        .code-tag {
+            color: #7dd3fc;
+        }
+        
+        .code-attr {
+            color: #fbbf24;
+        }
+        
+        .code-value {
+            color: #34d399;
+        }
+        
+        /* 交互演示区 */
+        .interactive-demo {
+            background: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .demo-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .demo-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 设备模拟器 */
+        .device-simulator {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .device-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .screen-size {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .screen-content {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .size-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .size-btn {
+            padding: 0.5rem 1rem;
+            background: var(--light-bg);
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .size-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ========== 响应式设计 - 媒体查询 ========== */
+        
+        /* 平板设备 (768px 及以上) */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+                margin: 0 auto;
+            }
+            
+            .nav-toggle {
+                display: none;
+            }
+            
+            .nav-links {
+                display: flex !important;
+            }
+            
+            .demo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .demo-container {
+                justify-content: flex-start;
+            }
+        }
+        
+        /* 桌面设备 (992px 及以上) */
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+            
+            .demo-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .nav-links {
+                gap: 3rem;
+            }
+        }
+        
+        /* 大桌面设备 (1200px 及以上) */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+        
+        /* 手机设备 (767px 及以下) */
+        @media (max-width: 767px) {
+            .header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-color);
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .size-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            .header, .footer, .interactive-demo, .device-simulator {
+                display: none;
+            }
+        }
+        
+        /* 深色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #f3f4f6;
+                --light-bg: #1f2937;
+            }
+            
+            body {
+                background-color: #111827;
+                color: var(--text-color);
+            }
+            
+            .demo-section, .demo-item {
+                background: #1f2937;
+            }
+            
+            .demo-item {
+                border-left-color: var(--secondary-color);
+            }
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">📱</span>
+                <span>响应式设计教程</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#core-concepts">核心概念</a></li>
+                <li><a href="#viewport">Viewport</a></li>
+                <li><a href="#media-queries">媒体查询</a></li>
+                <li><a href="#layout">布局技术</a></li>
+                <li><a href="#demo">交互演示</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 欢迎区域 -->
+            <section class="hero fade-in">
+                <h1>响应式网页设计完全指南</h1>
+                <p>学习如何创建适应任何屏幕尺寸的现代网站。本教程将带您了解响应式设计的核心概念、关键语法和最佳实践。</p>
+                <div class="device-simulator">
+                    <div class="device-header">
+                        <div>设备模拟器</div>
+                        <div class="screen-size" id="screenSize">屏幕宽度: <span id="currentWidth">-</span>px</div>
+                    </div>
+                    <div class="screen-content">
+                        <div id="responsiveDemo">
+                            <p>调整浏览器窗口大小，或点击下方按钮查看响应式效果</p>
+                            <div class="demo-container">
+                                <div class="demo-box" style="background-color: #3b82f6;">Flex 项目 1</div>
+                                <div class="demo-box" style="background-color: #8b5cf6;">Flex 项目 2</div>
+                                <div class="demo-box" style="background-color: #10b981;">Flex 项目 3</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="size-controls">
+                        <button class="size-btn" data-width="375">手机 (375px)</button>
+                        <button class="size-btn" data-width="768">平板 (768px)</button>
+                        <button class="size-btn" data-width="1024">笔记本 (1024px)</button>
+                        <button class="size-btn" data-width="1440">桌面 (1440px)</button>
+                        <button class="size-btn active" data-width="full">全屏</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 核心概念 -->
+            <section class="demo-section fade-in" id="core-concepts">
+                <div class="demo-title">
+                    <span class="demo-icon">🎯</span>
+                    <h2>响应式设计的核心逻辑</h2>
+                </div>
+                <div class="demo-grid">
+                    <div class="demo-item">
+                        <h3>1. 流式布局</h3>
+                        <p>使用相对单位（%, vw, vh）而不是固定像素，让元素根据容器大小自动调整。</p>
+                        <div class="code-block">
+                            <pre><span class="code-comment">/* 固定布局（不响应式） */</span>
+.container {
+    width: <span class="code-value">960px</span>; <span class="code-comment">/* 固定宽度 */</span>
+}
+
+<span class="code-comment">/* 流式布局（响应式） */</span>
+.container {
+    width: <span class="code-value">100%</span>;
+    max-width: <span class="code-value">1200px</span>;
+    margin: <span class="code-value">0 auto</span>;
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <h3>2. 媒体查询</h3>
+                        <p>根据设备特性（如屏幕宽度）应用不同的CSS规则。</p>
+                        <div class="code-block">
+                            <pre><span class="code-comment">/* 基础样式（移动优先） */</span>
+.element {
+    width: <span class="code-value">100%</span>;
+}
+
+<span class="code-comment">/* 平板设备（768px及以上） */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">768px</span>) {
+    .element {
+        width: <span class="code-value">50%</span>;
+    }
+}
+
+<span class="code-comment">/* 桌面设备（992px及以上） */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">992px</span>) {
+    .element {
+        width: <span class="code-value">33.33%</span>;
+    }
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <h3>3. 响应式图片</h3>
+                        <p>确保图片在不同设备上都能正确显示，不破坏布局。</p>
+                        <div class="code-block">
+                            <pre><span class="code-comment">&lt;!-- 响应式图片基本用法 --&gt;</span>
+&lt;img <span class="code-attr">src</span>=<span class="code-value">"image.jpg"</span> 
+     <span class="code-attr">alt</span>=<span class="code-value">"描述文字"</span>
+     <span class="code-attr">style</span>=<span class="code-value">"width: 100%; height: auto;"</span>&gt;
+
+<span class="code-comment">&lt;!-- 响应式图片高级用法 --&gt;</span>
+&lt;img <span class="code-attr">src</span>=<span class="code-value">"small.jpg"</span>
+     <span class="code-attr">srcset</span>=<span class="code-value">"small.jpg 500w, medium.jpg 1000w, large.jpg 1500w"</span>
+     <span class="code-attr">sizes</span>=<span class="code-value">"(max-width: 600px) 100vw, 50vw"</span>
+     <span class="code-attr">alt</span>=<span class="code-value">"响应式图片"</span>&gt;</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Viewport设置 -->
+            <section class="demo-section fade-in" id="viewport">
+                <div class="demo-title">
+                    <span class="demo-icon">📍</span>
+                    <h2>Viewport 元标签 - 必须设置！</h2>
+                </div>
+                <div class="demo-item">
+                    <p>Viewport 是响应式设计的基石，它告诉浏览器如何控制页面的尺寸和缩放。</p>
+                    <div class="code-block">
+                        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    <span class="code-comment">&lt;!-- 必须设置的 viewport 标签 --&gt;</span>
+    &lt;meta <span class="code-attr">name</span>=<span class="code-value">"viewport"</span> 
+          <span class="code-attr">content</span>=<span class="code-value">"width=device-width, initial-scale=1.0"</span>&gt;
+    
+    <span class="code-comment">&lt;!-- 其他属性说明 --&gt;</span>
+    <span class="code-comment">&lt;!-- width=device-width: 页面宽度等于设备宽度 --&gt;</span>
+    <span class="code-comment">&lt;!-- initial-scale=1.0: 初始缩放级别为1 --&gt;</span>
+    <span class="code-comment">&lt;!-- maximum-scale=1.0: 禁止用户缩放（不推荐） --&gt;</span>
+    <span class="code-comment">&lt;!-- user-scalable=no: 禁止用户缩放（不推荐，影响可访问性） --&gt;</span>
+&lt;/head&gt;</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 媒体查询详解 -->
+            <section class="demo-section fade-in" id="media-queries">
+                <div class="demo-title">
+                    <span class="demo-icon">📱</span>
+                    <h2>媒体查询详解</h2>
+                </div>
+                <div class="demo-grid">
+                    <div class="demo-item">
+                        <h3>常用断点</h3>
+                        <p>业界标准断点（基于主流设备尺寸）</p>
+                        <div class="code-block">
+                            <pre><span class="code-comment">/* 超小设备（手机，小于576px）*/</span>
+<span class="code-comment">/* 移动优先：先写手机样式 */</span>
+
+<span class="code-comment">/* 小型设备（竖屏平板，≥576px） */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">576px</span>) { 
+    <span class="code-comment">/* 样式 */</span> 
+}
+
+<span class="code-comment">/* 中型设备（横屏平板，≥768px） */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">768px</span>) { 
+    <span class="code-comment">/* 样式 */</span> 
+}
+
+<span class="code-comment">/* 大型设备（笔记本/台式机，≥992px） */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">992px</span>) { 
+    <span class="code-comment">/* 样式 */</span> 
+}
+
+<span class="code-comment">/* 超大型设备（大屏幕，≥1200px） */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">1200px</span>) { 
+    <span class="code-comment">/* 样式 */</span> 
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <h3>媒体类型和特性</h3>
+                        <p>除了屏幕宽度，还可以根据其他特性应用样式</p>
+                        <div class="code-block">
+                            <pre><span class="code-comment">/* 仅针对屏幕设备 */</span>
+<span class="code-tag">@media</span> <span class="code-value">screen</span> { ... }
+
+<span class="code-comment">/* 打印样式 */</span>
+<span class="code-tag">@media</span> <span class="code-value">print</span> { 
+    .no-print { display: none; } 
+}
+
+<span class="code-comment">/* 横屏设备 */</span>
+<span class="code-tag">@media</span> (orientation: <span class="code-value">landscape</span>) { ... }
+
+<span class="code-comment">/* 竖屏设备 */</span>
+<span class="code-tag">@media</span> (orientation: <span class="code-value">portrait</span>) { ... }
+
+<span class="code-comment">/* 高分辨率屏幕（视网膜屏） */</span>
+<span class="code-tag">@media</span> (-webkit-min-device-pixel-ratio: <span class="code-value">2</span>), 
+       (min-resolution: <span class="code-value">192dpi</span>) { ... }
+
+<span class="code-comment">/* 深色模式 */</span>
+<span class="code-tag">@media</span> (prefers-color-scheme: <span class="code-value">dark</span>) { 
+    body { background: #000; color: #fff; } 
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <h3>复杂媒体查询</h3>
+                        <p>使用逻辑运算符组合多个条件</p>
+                        <div class="code-block">
+                            <pre><span class="code-comment">/* 与运算：同时满足两个条件 */</span>
+<span class="code-tag">@media</span> (min-width: <span class="code-value">768px</span>) and (max-width: <span class="code-value">1024px</span>) { 
+    <span class="code-comment">/* 仅适用于768px到1024px之间 */</span> 
+}
+
+<span class="code-comment">/* 或运算：满足任意一个条件 */</span>
+<span class="code-tag">@media</span> (max-width: <span class="code-value">600px</span>), (orientation: <span class="code-value">landscape</span>) { 
+    <span class="code-comment">/* 宽度≤600px 或 横屏设备 */</span> 
+}
+
+<span class="code-comment">/* 非运算：排除某些条件 */</span>
+<span class="code-tag">@media</span> not (max-width: <span class="code-value">600px</span>) { 
+    <span class="code-comment">/* 宽度>600px的设备 */</span> 
+}
+
+<span class="code-comment">/* 组合查询 */</span>
+<span class="code-tag">@media</span> screen and (min-width: <span class="code-value">768px</span>) and 
+       (max-width: <span class="code-value">1024px</span>) and 
+       (orientation: <span class="code-value">landscape</span>) { 
+    <span class="code-comment">/* 平板横屏样式 */</span> 
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 布局技术 -->
+            <section class="demo-section fade-in" id="layout">
+                <div class="demo-title">
+                    <span class="demo-icon">🎨</span>
+                    <h2>现代响应式布局技术</h2>
+                </div>
+                
+                <div class="demo-item">
+                    <h3>1. Flexbox 弹性盒子</h3>
+                    <p>一维布局模型，非常适合组件和小规模布局</p>
+                    <div class="interactive-demo">
+                        <div class="demo-container" id="flexDemo" style="display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; background: #e2e8f0; border-radius: 8px;">
+                            <div style="padding: 20px; background: #3b82f6; color: white; flex: 1; min-width: 100px;">Flex 项目 1</div>
+                            <div style="padding: 20px; background: #8b5cf6; color: white; flex: 2; min-width: 100px;">Flex 项目 2 (flex: 2)</div>
+                            <div style="padding: 20px; background: #10b981; color: white; flex: 1; min-width: 100px;">Flex 项目 3</div>
+                        </div>
+                        <p style="margin-top: 1rem;">调整窗口大小查看弹性效果</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><span class="code-comment">/* Flexbox 容器 */</span>
+.container {
+    display: <span class="code-value">flex</span>;
+    flex-wrap: <span class="code-value">wrap</span>; <span class="code-comment">/* 允许换行 */</span>
+    gap: <span class="code-value">1rem</span>; <span class="code-comment">/* 项目间距 */</span>
+    justify-content: <span class="code-value">space-between</span>; <span class="code-comment">/* 主轴对齐 */</span>
+    align-items: <span class="code-value">center</span>; <span class="code-comment">/* 交叉轴对齐 */</span>
+}
+
+<span class="code-comment">/* Flexbox 项目 */</span>
+.item {
+    flex: <span class="code-value">1 1 300px</span>; <span class="code-comment">/* flex-grow | flex-shrink | flex-basis */</span>
+    <span class="code-comment">/* 解释：可伸展 | 可收缩 | 基础宽度300px */</span>
+}
+
+<span class="code-comment">/* 响应式Flexbox */</span>
+<span class="code-tag">@media</span> (max-width: <span class="code-value">768px</span>) {
+    .container {
+        flex-direction: <span class="code-value">column</span>;
+    }
+    .item {
+        flex: <span class="code-value">1 1 auto</span>;
+    }
+}</pre>
+                    </div>
+                </div>
+                
+                <div class="demo-item">
+                    <h3>2. CSS Grid 网格布局</h3>
+                    <p>二维布局系统，适合页面级布局</p>
+                    <div class="interactive-demo">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; padding: 20px; background: #e2e8f0; border-radius: 8px;">
+                            <div style="padding: 20px; background: #f59e0b; color: white; text-align: center;">Grid 项目 1</div>
+                            <div style="padding: 20px; background: #ef4444; color: white; text-align: center;">Grid 项目 2</div>
+                            <div style="padding: 20px; background: #10b981; color: white; text-align: center;">Grid 项目 3</div>
+                            <div style="padding: 20px; background: #3b82f6; color: white; text-align: center;">Grid 项目 4</div>
+                        </div>
+                        <p style="margin-top: 1rem;">网格会自动调整列数</p>
+                    </div>
+                    <div class="code-block">
+                        <pre><span class="code-comment">/* CSS Grid 容器 */</span>
+.container {
+    display: <span class="code-value">grid</span>;
+    
+    <span class="code-comment">/* 自动适应列数，每列最小200px，最大等分 */</span>
+    grid-template-columns: <span class="code-value">repeat(auto-fit, minmax(200px, 1fr))</span>;
+    
+    <span class="code-comment">/* 或固定列数 */</span>
+    <span class="code-comment">/* grid-template-columns: repeat(3, 1fr); */</span>
+    
+    gap: <span class="code-value">1rem</span>; <span class="code-comment">/* 行列间距 */</span>
+}
+
+<span class="code-comment">/* 响应式Grid */</span>
+.container {
+    <span class="code-comment">/* 默认：1列（手机） */</span>
+    grid-template-columns: <span class="code-value">1fr</span>;
+}
+
+<span class="code-tag">@media</span> (min-width: <span class="code-value">768px</span>) {
+    .container {
+        <span class="code-comment">/* 平板：2列 */</span>
+        grid-template-columns: <span class="code-value">repeat(2, 1fr)</span>;
+    }
+}
+
+<span class="code-tag">@media</span> (min-width: <span class="code-value">1024px</span>) {
+    .container {
+        <span class="code-comment">/* 桌面：3列 */</span>
+        grid-template-columns: <span class="code-value">repeat(3, 1fr)</span>;
+    }
+}</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 交互演示区 -->
+            <section class="demo-section fade-in" id="demo">
+                <div class="demo-title">
+                    <span class="demo-icon">✨</span>
+                    <h2>响应式设计实战示例</h2>
+                </div>
+                
+                <div class="demo-item">
+                    <h3>响应式卡片组件</h3>
+                    <p>一个完整的响应式卡片组件，包含所有最佳实践</p>
+                    
+                    <div class="code-block">
+                        <pre>&lt;!<span class="code-tag">DOCTYPE</span> <span class="code-attr">html</span>&gt;
+&lt;<span class="code-tag">html</span> <span class="code-attr">lang</span>=<span class="code-value">"zh-CN"</span>&gt;
+&lt;<span class="code-tag">head</span>&gt;
+    &lt;<span class="code-tag">meta</span> <span class="code-attr">charset</span>=<span class="code-value">"UTF-8"</span>&gt;
+    &lt;<span class="code-tag">meta</span> <span class="code-attr">name</span>=<span class="code-value">"viewport"</span> <span class="code-attr">content</span>=<span class="code-value">"width=device-width, initial-scale=1.0"</span>&gt;
+    &lt;<span class="code-tag">title</span>&gt;响应式卡片&lt;/<span class="code-tag">title</span>&gt;
+    &lt;<span class="code-tag">style</span>&gt;
+        <span class="code-comment">/* 移动优先：基础样式（手机） */</span>
+        .card-container {
+            display: <span class="code-value">grid</span>;
+            gap: <span class="code-value">1rem</span>;
+            padding: <span class="code-value">1rem</span>;
+        }
+        
+        .card {
+            background: <span class="code-value">white</span>;
+            border-radius: <span class="code-value">12px</span>;
+            overflow: <span class="code-value">hidden</span>;
+            box-shadow: <span class="code-value">0 4px 6px rgba(0,0,0,0.1)</span>;
+            transition: <span class="code-value">transform 0.3s ease</span>;
+        }
+        
+        .card:hover {
+            transform: <span class="code-value">translateY(-5px)</span>;
+        }
+        
+        .card img {
+            width: <span class="code-value">100%</span>;
+            height: <span class="code-value">200px</span>;
+            object-fit: <span class="code-value">cover</span>;
+        }
+        
+        .card-content {
+            padding: <span class="code-value">1.5rem</span>;
+        }
+        
+        <span class="code-comment">/* 平板：2列布局 */</span>
+        <span class="code-tag">@media</span> (min-width: <span class="code-value">768px</span>) {
+            .card-container {
+                grid-template-columns: <span class="code-value">repeat(2, 1fr)</span>;
+            }
+        }
+        
+        <span class="code-comment">/* 桌面：3列布局 */</span>
+        <span class="code-tag">@media</span> (min-width: <span class="code-value">1024px</span>) {
+            .card-container {
+                grid-template-columns: <span class="code-value">repeat(3, 1fr)</span>;
+            }
+        }
+        
+        <span class="code-comment">/* 大桌面：4列布局 */</span>
+        <span class="code-tag">@media</span> (min-width: <span class="code-value">1280px</span>) {
+            .card-container {
+                grid-template-columns: <span class="code-value">repeat(4, 1fr)</span>;
+            }
+        }
+        
+        <span class="code-comment">/* 打印样式 */</span>
+        <span class="code-tag">@media</span> print {
+            .card {
+                break-inside: <span class="code-value">avoid</span>; <span class="code-comment">/* 防止分页打断卡片 */</span>
+                box-shadow: <span class="code-value">none</span>;
+                border: <span class="code-value">1px solid #ddd</span>;
+            }
+        }
+    &lt;/<span class="code-tag">style</span>&gt;
+&lt;/<span class="code-tag">head</span>&gt;</pre>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2023 响应式设计教程 | 本页面本身就是一个响应式设计的示例！</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                尝试调整浏览器窗口大小，或使用浏览器的设备模拟器查看响应式效果
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 响应式设计交互功能
+        
+        // 更新当前屏幕宽度显示
+        function updateScreenSize() {
+            const width = window.innerWidth;
+            document.getElementById('currentWidth').textContent = width;
+            
+            // 更新响应式演示区域
+            const demoContainer = document.querySelector('.demo-container');
+            if (width < 576) {
+                // 手机
+                demoContainer.style.flexDirection = 'column';
+                demoContainer.style.alignItems = 'stretch';
+            } else if (width < 768) {
+                // 大手机
+                demoContainer.style.flexDirection = 'row';
+                demoContainer.style.flexWrap = 'wrap';
+            } else {
+                // 平板及以上
+                demoContainer.style.flexDirection = 'row';
+                demoContainer.style.flexWrap = 'nowrap';
+            }
+        }
+        
+        // 设备模拟器控制
+        document.querySelectorAll('.size-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // 移除所有按钮的active类
+                document.querySelectorAll('.size-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // 添加active类到当前按钮
+                this.classList.add('active');
+                
+                const width = this.dataset.width;
+                const screenSize = document.getElementById('screenSize');
+                
+                if (width === 'full') {
+                    // 恢复全屏
+                    document.body.style.width = '100%';
+                    document.body.style.margin = '0';
+                    screenSize.innerHTML = '屏幕宽度: <span id="currentWidth">' + window.innerWidth + '</span>px';
+                    updateScreenSize();
+                } else {
+                    // 设置固定宽度
+                    document.body.style.width = width + 'px';
+                    document.body.style.margin = '0 auto';
+                    document.body.style.boxShadow = '0 0 20px rgba(0,0,0,0.1)';
+                    screenSize.innerHTML = '模拟宽度: <span id="currentWidth">' + width + '</span>px';
+                    
+                    // 更新演示区域
+                    const demoContainer = document.querySelector('.demo-container');
+                    if (parseInt(width) < 576) {
+                        demoContainer.style.flexDirection = 'column';
+                        demoContainer.style.alignItems = 'stretch';
+                    } else if (parseInt(width) < 768) {
+                        demoContainer.style.flexDirection = 'row';
+                        demoContainer.style.flexWrap = 'wrap';
+                    } else {
+                        demoContainer.style.flexDirection = 'row';
+                        demoContainer.style.flexWrap = 'nowrap';
+                    }
+                }
+            });
+        });
+        
+        // 移动端导航菜单切换
+        document.getElementById('navToggle').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('show');
+        });
+        
+        // 代码复制功能
+        document.querySelectorAll('.code-block').forEach(block => {
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.textContent = '复制代码';
+            copyBtn.onclick = function() {
+                const code = block.querySelector('pre').textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '已复制!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
+            };
+            block.appendChild(copyBtn);
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // 关闭移动端菜单
+                    document.getElementById('navLinks').classList.remove('show');
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 监听窗口大小变化
+        window.addEventListener('resize', updateScreenSize);
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateScreenSize();
+            
+            // 添加滚动动画
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // 观察所有演示区域
+            document.querySelectorAll('.demo-section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

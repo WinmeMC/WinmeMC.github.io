@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日祝福 - 粒子效果版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            min-height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .greeting {
+            color: #9c27b0;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-like {
+            background: linear-gradient(to right, #4CAF50, #8BC34A);
+            color: white;
+        }
+
+        .btn-dislike {
+            background: linear-gradient(to right, #FF9800, #FF5722);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .reaction {
+            margin: 30px 0;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .emoji {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .reaction-text {
+            font-size: 1.8rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .cake-container {
+            margin: 30px 0;
+            display: none;
+        }
+
+        .cake {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto;
+        }
+
+        .cake-base {
+            width: 250px;
+            height: 80px;
+            background: linear-gradient(to right, #FFCCBC, #FFAB91);
+            border-radius: 10px 10px 0 0;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cake-top {
+            width: 200px;
+            height: 60px;
+            background: linear-gradient(to right, #F48FB1, #F06292);
+            border-radius: 10px 10px 0 0;
+            margin: 0 auto;
+            position: relative;
+            top: -20px;
+        }
+
+        .candle {
+            width: 10px;
+            height: 60px;
+            background: #FFEB3B;
+            margin: 0 auto;
+            position: relative;
+            top: -40px;
+            border-radius: 5px;
+        }
+
+        .flame {
+            width: 20px;
+            height: 40px;
+            background: #FF9800;
+            border-radius: 50% 50% 20% 20%;
+            margin: 0 auto;
+            position: relative;
+            top: -95px;
+            animation: flicker 0.5s infinite alternate;
+        }
+
+        .blessing {
+            font-size: 1.6rem;
+            color: #673AB7;
+            margin-top: 30px;
+            line-height: 1.5;
+            padding: 0 20px;
+            min-height: 120px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        /* 粒子文字效果 */
+        .particle-text {
+            display: inline-block;
+            position: relative;
+        }
+
+        .particle-letter {
+            display: inline-block;
+            opacity: 0;
+            position: relative;
+            transform: translateY(30px) scale(0.8);
+            animation: particle-pop 0.6s forwards;
+            animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .particle-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #e91e63;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 按钮文字粒子效果 */
+        .btn-particle {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-particle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn-particle:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        /* 祝福语粒子效果 */
+        .blessing-particle {
+            position: relative;
+            overflow: hidden;
+            padding: 10px 0;
+        }
+
+        .blessing-letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotateY(90deg);
+            animation: letter-reveal 0.8s forwards;
+            animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* 动画定义 */
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes particle-pop {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.8);
+            }
+
+            70% {
+                opacity: 1;
+                transform: translateY(-5px) scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(40, 40);
+                opacity: 0;
+            }
+        }
+
+        @keyframes letter-reveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) rotateY(90deg);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(-3px) rotateY(0deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateY(0deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .btn {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+
+            .emoji {
+                font-size: 4rem;
+            }
+
+            .blessing {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="mainTitle" class="particle-text">
+            <!-- 标题将由JavaScript动态生成粒子效果 -->
+            🎉 生日快乐！ 🎉
+        </h1>
+
+        <div class="greeting" id="greetingText">
+            亲爱的朋友，在这个特别的日子里，我们为你准备了这份小小心意。<br>
+            希望你能喜欢这份生日祝福！
+        </div>
+
+        <div class="button-container">
+            <button class="btn btn-like btn-particle" id="likeBtn">😊 喜欢</button>
+            <button class="btn btn-dislike btn-particle" id="dislikeBtn">😢 不喜欢</button>
+        </div>
+
+        <div class="reaction" id="reactionArea">
+            <!-- 这里会动态显示反应 -->
+        </div>
+
+        <div class="cake-container" id="cakeContainer">
+            <div class="cake">
+                <div class="cake-base"></div>
+                <div class="cake-top"></div>
+                <div class="candle"></div>
+                <div class="flame"></div>
+            </div>
+
+            <div class="blessing blessing-particle" id="blessingText">
+                <!-- 祝福语会在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const likeBtn = document.getElementById('likeBtn');
+        const dislikeBtn = document.getElementById('dislikeBtn');
+        const reactionArea = document.getElementById('reactionArea');
+        const cakeContainer = document.getElementById('cakeContainer');
+        const blessingText = document.getElementById('blessingText');
+        const mainTitle = document.getElementById('mainTitle');
+        const greetingText = document.getElementById('greetingText');
+
+        // 定义反应内容
+        const likeReaction = {
+            emoji: '🥳',
+            text: '太棒了！祝你生日快乐，天天开心！'
+        };
+
+        const dislikeReaction = {
+            emoji: '😭',
+            text: '别难过嘛~ 生日一定要开开心心的！'
+        };
+
+        // 祝福语数组
+        const blessings = [
+            "愿你每一岁都奔走在自己的热爱里，生日快乐！",
+            "愿你的生活常温暖，日子总是温柔又闪光，生日快乐！",
+            "愿你所求皆如愿，所行化坦途，多喜乐，长安宁，生日快乐！",
+            "愿这完全属于你的一天带给你快乐，愿未来的日子锦上添花！",
+            "祝你生日快乐，愿你的眼中总有光芒，活成你想要的模样！"
+        ];
+
+        // 创建粒子文字效果
+        function createParticleText(element, delayPerChar = 80) {
+            const text = element.textContent;
+            element.innerHTML = '';
+
+            // 将文本拆分为字符
+            const characters = Array.from(text);
+
+            characters.forEach((char, index) => {
+                const span = document.createElement('span');
+                span.className = 'particle-letter';
+                span.textContent = char;
+
+                // 设置每个字符的动画延迟
+                span.style.animationDelay = `${index * delayPerChar}ms`;
+
+                // 如果是空格，添加非断行空格
+                if (char === ' ') {
+                    span.innerHTML = '&nbsp;';
+                }
+
+                element.appendChild(span);
+            });
+        }
+
+        // 创建祝福语粒子效果
+        function createBlessingParticleText(element, text, delayPerChar = 60) {
+            element.innerHTML = '';
+
+            // 将文本拆分为字符
+            const characters = Array.from(text);
+
+            characters.forEach((char, index) => {
+                const span = document.createElement('span');
+                span.className = 'blessing-letter';
+                span.textContent = char;
+
+                // 设置每个字符的动画延迟
+                span.style.animationDelay = `${index * delayPerChar}ms`;
+
+                // 如果是空格，添加非断行空格
+                if (char === ' ') {
+                    span.innerHTML = '&nbsp;';
+                }
+
+                element.appendChild(span);
+            });
+        }
+
+        // 创建按钮粒子效果
+        function createButtonParticleEffect(button) {
+            button.addEventListener('click', function (e) {
+                // 创建多个粒子
+                for (let i = 0; i < 15; i++) {
+                    createParticle(e, button);
+                }
+            });
+        }
+
+        // 创建单个粒子
+        function createParticle(e, button) {
+            const particle = document.createElement('span');
+            particle.className = 'particle-dot';
+
+            // 获取按钮位置和颜色
+            const rect = button.getBoundingClientRect();
+            const color = window.getComputedStyle(button).backgroundColor;
+
+            // 设置粒子位置和颜色
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.backgroundColor = color;
+
+            // 添加到按钮中
+            button.appendChild(particle);
+
+            // 设置随机速度和方向
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 3;
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+
+            // 动画粒子
+            let opacity = 1;
+            let posX = x;
+            let posY = y;
+            let size = 3 + Math.random() * 4;
+
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+
+            const animate = () => {
+                opacity -= 0.03;
+                posX += vx;
+                posY += vy;
+
+                particle.style.opacity = opacity;
+                particle.style.left = posX + 'px';
+                particle.style.top = posY + 'px';
+                particle.style.transform = `rotate(${posX + posY}deg)`;
+
+                if (opacity > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                }
+            };
+
+            animate();
+        }
+
+        // 随机选择一条祝福语
+        function getRandomBlessing() {
+            const randomIndex = Math.floor(Math.random() * blessings.length);
+            return blessings[randomIndex];
+        }
+
+        // 处理"喜欢"按钮点击
+        likeBtn.addEventListener('click', function () {
+            showReaction(likeReaction);
+            showCakeAndBlessing();
+        });
+
+        // 处理"不喜欢"按钮点击
+        dislikeBtn.addEventListener('click', function () {
+            showReaction(dislikeReaction);
+            showCakeAndBlessing();
+        });
+
+        // 显示反应
+        function showReaction(reaction) {
+            // 隐藏按钮
+            likeBtn.style.display = 'none';
+            dislikeBtn.style.display = 'none';
+
+            // 显示反应
+            reactionArea.innerHTML = `
+                <div class="emoji">${reaction.emoji}</div>
+                <div class="reaction-text">${reaction.text}</div>
+            `;
+
+            // 为反应文本添加粒子效果
+            setTimeout(() => {
+                const reactionText = reactionArea.querySelector('.reaction-text');
+                if (reactionText) {
+                    createParticleText(reactionText, 60);
+                }
+            }, 100);
+        }
+
+        // 显示蛋糕和祝福
+        function showCakeAndBlessing() {
+            // 等待2秒后显示蛋糕
+            setTimeout(() => {
+                cakeContainer.classList.remove('hidden');
+                cakeContainer.classList.add('visible');
+
+                // 设置祝福语
+                const blessing = getRandomBlessing();
+                createBlessingParticleText(blessingText, blessing, 50);
+
+                // 添加一些动画效果
+                cakeContainer.style.animation = 'fadeIn 1s forwards';
+
+            }, 2000);
+        }
+
+        // 初始加载时，确保蛋糕容器是隐藏的，并初始化粒子效果
+        window.addEventListener('DOMContentLoaded', function () {
+            cakeContainer.classList.add('hidden');
+
+            // 为标题添加粒子效果
+            createParticleText(mainTitle, 100);
+
+            // 为问候语添加粒子效果
+            setTimeout(() => {
+                createParticleText(greetingText, 50);
+            }, 800);
+
+            // 为按钮添加粒子效果
+            createButtonParticleEffect(likeBtn);
+            createButtonParticleEffect(dislikeBtn);
+
+            // 添加CSS动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+
+</html>
